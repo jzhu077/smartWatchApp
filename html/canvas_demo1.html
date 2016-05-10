@@ -2,15 +2,18 @@
 <html><style>
     div.relative {
         position: relative;
-        width: 400px;
-        height: 200px;
-        border: 3px solid #73AD21;
+        top:100px;
+        left: 100px;
+        width: 300px;
+        height: 300px;
+        border: 0px solid #73AD21;
     }
 
-    div.absolute {
-        position: absolute;
-        top:130px;
-        left: 130px;
+    div.maps {
+        position: relative;
+        top:-285px;
+        z-index: -10;
+        left: 121px;
         width: 160px;
         height: 160px;
         border: 0px solid #73AD21;
@@ -19,12 +22,15 @@
 </style>
 
 <body>
-<div class="absolute" id="googleMap" style="width:160px;height:160px;"></div>
-<canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
-    Your browser does not support the HTML5 canvas tag.</canvas>
+
 <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script src="../js/emulator.js"></script>
 
+<div class="relative" id="debug">
+    <canvas id="myCanvas" width="400" height="400" style="border:1px solid #d3d3d3;">
+        Your browser does not support the HTML5 canvas tag.</canvas>
+    <div class="maps" id="googleMap"></div>
+</div>
 </body>
 </html>
