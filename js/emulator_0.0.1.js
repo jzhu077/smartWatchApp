@@ -3,11 +3,17 @@
  */
 $(document).ready(function() {
     var can, ctx, canX, canY, mouseIsDown = 0;
-    var can_clock,ctx_c,radius_c=0;
-    var Swipe_Right = 0, Swipe_Left = 0, Swipe_Up = 0, Swipe_Down = 0;
-    var lastMouseDown = {x: null, y: null};
-    var map;
+    var can_clock,ctx_c,radius_c=0;// analog clock
+    var Swipe_Right = 0, Swipe_Left = 0, Swipe_Up = 0, Swipe_Down = 0;//mouse swipe event
+    var lastMouseDown = {x: null, y: null};// mouse position when click
+    var map; //google map
+    var main_menu=0;var food_menu=0;var entertain_menu=0;// canvas menu
+    var ctx_main=0; var ctx_food=0; var ctx_entertain=0;//canvas menu
     var Layer=0;
+    // layer, used to describe the activities
+    //eg. different screen are put in different layers, when its function is called by user
+    //the app in specific layer will be bring to foreground.
+
     $("body").init(function () {
         can = document.getElementById("myCanvas");
         ctx = can.getContext("2d");
@@ -22,6 +28,13 @@ $(document).ready(function() {
         radius_c = can_clock.height / 2;
         ctx_c.translate(radius_c, radius_c);
         radius_c = radius_c * 0.90;
+
+        main_menu=document.getElementById("main_menu");
+        ctx_main=main_menu.getContext("2d");
+        food_menu=document.getElementById("food_menu");
+        ctx_food=food_menu.getContext("2d");
+        entertain_menu=document.getElementById("entertain_menu");
+        ctx_entertain=entertain_menu.getContext("2d");
     });
 
 
@@ -44,6 +57,10 @@ $(document).ready(function() {
         ctx.drawImage(imageObj, 120, 120);
     };
 
+/************************************************************************************/
+//  canvas mouse event detect mouse up and down or swipe left/right/up/down
+//
+// /***********************************************  */
 
 
     function mouseUp() {
@@ -104,8 +121,12 @@ $(document).ready(function() {
             runclock();
             Layer=2;}
         }
-        if (Swipe_Up)
+        if (Swipe_Up) {
+            var main = document.getElementById("main_menu");
+            main.style.zIndex = 0;
+            mainmenu();
             console.log("Swipe Up");
+        }
         if (Swipe_Down)
             if(Layer==2)
             {
@@ -116,6 +137,11 @@ $(document).ready(function() {
             console.log("Swipe Down");
     }
 
+/************************************************************************************/
+//  google maps draw a simple google map on watch
+//  require network connection
+//
+// /***********************************************  */
     function CenterControl(controlDiv, map) {
 
         var controlUI = document.createElement('div');
@@ -170,6 +196,11 @@ $(document).ready(function() {
 
     }
 
+/************************************************************************************/
+//  draw the frame of the watch
+//
+//
+// /***********************************************  */
 
 
 //suppose height=width, draw a rounded edged rectangle
@@ -212,6 +243,12 @@ $(document).ready(function() {
 
      document.getElementById("quit").addEventListener("click", quit);
      */
+
+/************************************************************************************/
+//  analog clock , show people a simple analog clock
+//
+//
+// /***********************************************  */
 
     function runclock() {
 
@@ -301,5 +338,16 @@ $(document).ready(function() {
         ctx.stroke();
         ctx.rotate(-pos);
     }
+/************************************************************************************/
+//  draw main menu on canvas
+//
+//
+// /***********************************************  */
+    function mainmenu(){
+        ctx_main.fillStyle = "#43D511";
+        ctx_main.fillRect(0,0,400,400);
+        
+    }
+
 
 })
