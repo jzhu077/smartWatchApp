@@ -2,8 +2,8 @@
 <html><style>
     div.relative {
         position: relative;
-        top:100px;
-        left: 100px;
+        top:10px;
+        left: 10px;
         width: 300px;
         height: 300px;
         border: 0px solid #73AD21;
@@ -18,7 +18,15 @@
         height: 160px;
         border: 0px solid #73AD21;
     }
-
+    canvas.clock{
+        position: relative;
+        top: -445px;
+        z-index: -2;
+        left: 121px;
+        width: 160px;
+        height: 160px;
+        border: 0px solid #73AD21;
+    }
 </style>
 
 <body>
@@ -31,6 +39,11 @@
     <canvas id="myCanvas" width="400" height="400" style="border:1px solid #d3d3d3;">
         Your browser does not support the HTML5 canvas tag.</canvas>
     <div class="maps" id="googleMap"></div>
+    <canvas class="clock" id="canvas_clock" width="400" height="400"
+            style="background-color:#333">
+    </canvas>
 </div>
+
+
 </body>
 </html>
