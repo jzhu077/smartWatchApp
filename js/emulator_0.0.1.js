@@ -1,42 +1,37 @@
 /**
  * Created by Frankyang on 1/04/2016.
  */
-$.getScript('../js/App.js', function() {
-    console.log('Load was performed.');
-});
-var travel = (function(){
-    "use strict";
-    var pub = {};
+
 
     var can, ctx, canX, canY, mouseIsDown = 0;
     var can_clock, ctx_c, radius_c = 0;// analog clock
     var Swipe_Right = 0, Swipe_Left = 0, Swipe_Up = 0, Swipe_Down = 0;//mouse swipe event
     var lastMouseDown = {x: null, y: null};// mouse position when click
-    var map; //google map
+    var map=0;
+    //var Layer = 0;
+
     var main_menu = 0;
     var food_menu = 0;
     var entertain_menu = 0;// canvas menu
     var ctx_main = 0;
     var ctx_food = 0;
     var ctx_entertain = 0;//canvas menu
-    var Layer = 0;
     // layer, used to describe the activities
     //eg. different screen are put in different layers, when its function is called by user
     //the app in specific layer will be bring to foreground.
-
 
 /************************************************************************************/
 //  canvas mouse event detect mouse up and down or swipe left/right/up/down
 //
 ///***********************************************  */
-    function drawfirstscreen() {
+    function drawfirstscreen(ctx,x,y,image) {
     var imageObj = new Image();
-    imageObj.src = '../images/travel.jpg';
+    imageObj.src = image;
     imageObj.id = "apple";
     imageObj.style.zIndex = -2;
 
     imageObj.onload = function () {
-        ctx.drawImage(imageObj, 120, 120);
+        ctx.drawImage(imageObj, x, y);
     };
 
 }
@@ -86,39 +81,6 @@ var travel = (function(){
     }
 
 
-    function showPos() {
-        if (mouseIsDown)
-            console.log("Mouse is down")
-        if (!mouseIsDown)
-            console.log("Mouse is up");
-        if (Swipe_Right) {
-            console.log("Swipe Right");
-            if (Layer == 0) {
-            var maps = document.getElementById("googleMap");
-            maps.style.zIndex = 0;
-            Layer=10;}
-        }
-        if (Swipe_Left){
-            console.log("Swipe Left");
-            if(Layer==0){
-            runclock();
-            Layer=2;}
-        }
-        if (Swipe_Up) {
-            var main = document.getElementById("main_menu");
-            main.style.zIndex = 0;
-            mainmenu();
-            console.log("Swipe Up");
-        }
-        if (Swipe_Down)
-            if(Layer==2)
-            {
-                var clock = document.getElementById("canvas_clock");
-                clock.style.zIndex = -2;
-                Layer=0;
-            }
-            console.log("Swipe Down");
-    }
 
 /************************************************************************************/
 //  google maps draw a simple google map on watch
@@ -158,25 +120,47 @@ var travel = (function(){
         });
     }
 
-    function initialize() {
-        var mapProp = {
-            center: new google.maps.LatLng(-45.88, 170.5),
-            zoom: 13,
-            panControl: true,
-            zoomControl: true,
-            //mapTypeControl:true,
-            scaleControl: true,
-            streetViewControl: true,
-            overviewMapControl: true,
-            rotateControl: true,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+    function initialize(map_element, map_para ) {
 
-        };
-        map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        map = new google.maps.Map(map_element, map_para);
         var quitmap = document.createElement('div');
         CenterControl(quitmap, map);
         CenterControl.index=1;
         map.controls[google.maps.ControlPosition.LEFT_TOP].push(quitmap);
+        gps_location();
+
+    }
+
+    function gps_location(){
+    var infoWindow = new google.maps.InfoWindow({
+        map: map
+    });
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            //infoWindow.width=300;
+            //infoWindow.height=30;
+            infoWindow.setContent('You are here');
+            map.setCenter(pos);
+        }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
+}
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
 
     }
 
@@ -234,7 +218,7 @@ var travel = (function(){
 //
 // /***********************************************  */
 
-    function runclock() {
+    function runclock(can_clock) {
 
         can_clock.style.zIndex = 0;
         can_clock.addEventListener("mousedown", mouseDown, false);
@@ -326,7 +310,7 @@ var travel = (function(){
 //
 //
 // /***********************************************  */
-    function mainmenu(){
+    function mainmenu(ctx_main){
         ctx_main.fillStyle = "#43D511";
         ctx_main.fillRect(0,0,400,400);
 
@@ -361,44 +345,7 @@ var travel = (function(){
 
     }
 
-    /**
-     * On setup, the script will automatically create a text input within a span
-     * Edit button is linked to the showInputBoxes function.
-     */
-    pub.setup = function() {
-        can = document.getElementById("myCanvas");
-        ctx = can.getContext("2d");
-        can.addEventListener("mousedown", mouseDown, false);
-        can.addEventListener("mousemove", mouseXY, false);
-        can.addEventListener("mouseup", mouseUp, false);
 
-        can_clock = document.getElementById("canvas_clock");
-        ctx_c = can_clock.getContext("2d");
-
-        radius_c = can_clock.height / 2;
-        ctx_c.translate(radius_c, radius_c);
-        radius_c = radius_c * 0.90;
-
-        main_menu = document.getElementById("main_menu");
-        ctx_main = main_menu.getContext("2d");
-        food_menu = document.getElementById("food_menu");
-        ctx_food = food_menu.getContext("2d");
-        entertain_menu = document.getElementById("entertain_menu");
-        ctx_entertain = entertain_menu.getContext("2d");
-
-
-        draw_watch_frame(ctx, 200, 200, 200, 200, 10);
-        draw_inner_frame(ctx, 200, 200, 160, 160);
-        google.maps.event.addDomListener(window, 'load', initialize);
-
-        drawfirstscreen();
-
-    };
-    return pub;
-}());
-
-
-$(document).ready(travel.setup);
 
 
 
