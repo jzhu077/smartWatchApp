@@ -1,62 +1,45 @@
 /**
  * Created by Frankyang on 1/04/2016.
  */
-$(document).ready(function() {
+$.getScript('../js/App.js', function() {
+    console.log('Load was performed.');
+});
+var travel = (function(){
+    "use strict";
+    var pub = {};
+
     var can, ctx, canX, canY, mouseIsDown = 0;
-    var can_clock,ctx_c,radius_c=0;// analog clock
+    var can_clock, ctx_c, radius_c = 0;// analog clock
     var Swipe_Right = 0, Swipe_Left = 0, Swipe_Up = 0, Swipe_Down = 0;//mouse swipe event
     var lastMouseDown = {x: null, y: null};// mouse position when click
     var map; //google map
-    var main_menu=0;var food_menu=0;var entertain_menu=0;// canvas menu
-    var ctx_main=0; var ctx_food=0; var ctx_entertain=0;//canvas menu
-    var Layer=0;
+    var main_menu = 0;
+    var food_menu = 0;
+    var entertain_menu = 0;// canvas menu
+    var ctx_main = 0;
+    var ctx_food = 0;
+    var ctx_entertain = 0;//canvas menu
+    var Layer = 0;
     // layer, used to describe the activities
     //eg. different screen are put in different layers, when its function is called by user
     //the app in specific layer will be bring to foreground.
 
-    $("body").init(function () {
-        can = document.getElementById("myCanvas");
-        ctx = can.getContext("2d");
-        can.addEventListener("mousedown", mouseDown, false);
-        can.addEventListener("mousemove", mouseXY, false);
-        can.addEventListener("mouseup", mouseUp, false);
 
-
-        can_clock=document.getElementById("canvas_clock");
-        ctx_c=can_clock.getContext("2d");
-
-        radius_c = can_clock.height / 2;
-        ctx_c.translate(radius_c, radius_c);
-        radius_c = radius_c * 0.90;
-
-        main_menu=document.getElementById("main_menu");
-        ctx_main=main_menu.getContext("2d");
-        food_menu=document.getElementById("food_menu");
-        ctx_food=food_menu.getContext("2d");
-        entertain_menu=document.getElementById("entertain_menu");
-        ctx_entertain=entertain_menu.getContext("2d");
-    });
-
-
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-
-
-    draw_watch_frame(ctx, 200, 200, 200, 200, 10);
-    draw_inner_frame(ctx, 200, 200, 160, 160)
-    google.maps.event.addDomListener(window, 'load', initialize);
-
-
-
+/************************************************************************************/
+//  canvas mouse event detect mouse up and down or swipe left/right/up/down
+//
+///***********************************************  */
+    function drawfirstscreen() {
     var imageObj = new Image();
-    imageObj.src='../images/travel.jpg';
-    imageObj.id="apple";
-    imageObj.style.zIndex=-2;
+    imageObj.src = '../images/travel.jpg';
+    imageObj.id = "apple";
+    imageObj.style.zIndex = -2;
 
-    imageObj.onload = function() {
+    imageObj.onload = function () {
         ctx.drawImage(imageObj, 120, 120);
     };
 
+}
 /************************************************************************************/
 //  canvas mouse event detect mouse up and down or swipe left/right/up/down
 //
@@ -171,6 +154,7 @@ $(document).ready(function() {
             var maps = document.getElementById("googleMap");
             maps.style.zIndex = -10;
             Layer=0;
+
         });
     }
 
@@ -253,7 +237,6 @@ $(document).ready(function() {
     function runclock() {
 
         can_clock.style.zIndex = 0;
-
         can_clock.addEventListener("mousedown", mouseDown, false);
         can_clock.addEventListener("mousemove", mouseXY, false);
         can_clock.addEventListener("mouseup", mouseUp, false);
@@ -346,8 +329,76 @@ $(document).ready(function() {
     function mainmenu(){
         ctx_main.fillStyle = "#43D511";
         ctx_main.fillRect(0,0,400,400);
-        
+
+    }
+/***************************************************************/
+    function loadImage(){
+        alert("hi");
+        console.log("hi");
+        var html = "<img src=travel.jpg>";
+        $(".app").append(html);
     }
 
+    /** Will get GPS location.
+     *
+     */
+    function getGPS(){
+        var GPS = $(".pages").val();
+        Cookie.set("GPS",GPS);
+        console.log(Cookie.get("GPS"));
+    }
 
-})
+    function findFood(){
+
+    }
+
+    function setButtons(){
+
+    }
+
+    /** Uses the getGPS function to set a radius and show to user.*/
+    function pickRadius(){
+
+    }
+
+    /**
+     * On setup, the script will automatically create a text input within a span
+     * Edit button is linked to the showInputBoxes function.
+     */
+    pub.setup = function() {
+        can = document.getElementById("myCanvas");
+        ctx = can.getContext("2d");
+        can.addEventListener("mousedown", mouseDown, false);
+        can.addEventListener("mousemove", mouseXY, false);
+        can.addEventListener("mouseup", mouseUp, false);
+
+        can_clock = document.getElementById("canvas_clock");
+        ctx_c = can_clock.getContext("2d");
+
+        radius_c = can_clock.height / 2;
+        ctx_c.translate(radius_c, radius_c);
+        radius_c = radius_c * 0.90;
+
+        main_menu = document.getElementById("main_menu");
+        ctx_main = main_menu.getContext("2d");
+        food_menu = document.getElementById("food_menu");
+        ctx_food = food_menu.getContext("2d");
+        entertain_menu = document.getElementById("entertain_menu");
+        ctx_entertain = entertain_menu.getContext("2d");
+
+
+        draw_watch_frame(ctx, 200, 200, 200, 200, 10);
+        draw_inner_frame(ctx, 200, 200, 160, 160);
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+        drawfirstscreen();
+
+    };
+    return pub;
+}());
+
+
+$(document).ready(travel.setup);
+
+
+

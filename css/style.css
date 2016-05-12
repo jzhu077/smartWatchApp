@@ -72,8 +72,8 @@ div.relative {
 }
 
 div.maps {
-    position: relative;
-    top:-288px;
+    position: absolute;
+    top:121px;
     z-index: -10;
     left: 121px;
     width: 160px;
@@ -81,8 +81,8 @@ div.maps {
     border: 0px solid #73AD21;
 }
 canvas.clock{
-    position: relative;
-    top: -448px;
+    position: absolute;
+    top: 121px;
     z-index: -2;
     left: 121px;
     width: 160px;
@@ -90,8 +90,8 @@ canvas.clock{
     border: 0px solid #73AD21;
 }
 canvas.m1{
-    position: relative;
-    top: -614px;
+    position: absolute;
+    top: 121px;
     z-index: -3;
     left: 121px;
     width: 160px;
@@ -99,8 +99,8 @@ canvas.m1{
     border: 0px solid #73AD21;
 }
 canvas.m2{
-    position: relative;
-    top: -768px;
+    position: absolute;
+    top: 121px;
     z-index: -4;
     left: 121px;
     width: 160px;
@@ -108,8 +108,8 @@ canvas.m2{
     border: 0px solid #73AD21;
 }
 canvas.m3{
-    position: relative;
-    top: -928px;
+    position: absolute;
+    top: 121px;
     z-index: -5;
     left: 121px;
     width: 160px;
