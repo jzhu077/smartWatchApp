@@ -80,13 +80,22 @@
             Swipe_Down = 0;
     }
 
-
+    function showelement(elementid){
+        setelementZindex(elementid,10);
+    }
+    function hideelement(elementid){
+    setelementZindex(elementid,-10);
+    }
 
 /************************************************************************************/
 //  google maps draw a simple google map on watch
 //  require network connection
 //
 // /***********************************************  */
+    function init_googlemap(map_element, mapProp){
+        google.maps.event.addDomListener(window, 'load', initialize(map_element,mapProp));
+    }
+
     function CenterControl(controlDiv, map) {
 
         var controlUI = document.createElement('div');
@@ -113,9 +122,7 @@
 
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener('click', function() {
-            var maps = document.getElementById("googleMap");
-            maps.style.zIndex = -10;
-            Layer=0;
+            hideelement("googleMap");
 
         });
     }
@@ -164,6 +171,12 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
     }
 
+function pop_googlemaps(){
+    var maps = getelement("googleMap");
+    maps.style.zIndex = 0;
+    gps_location();
+}
+
 /************************************************************************************/
 //  draw the frame of the watch
 //
@@ -199,19 +212,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     }
 
 
-    /*
-     var btn = document.createElement("BUTTON");        // Create a <button> element
-     var t = document.createTextNode("Quit");       // Create a text node
-     btn.id="quit"
-     btn.appendChild(t);                                // Append the text to <button>
-     document.body.appendChild(btn);
-     btn.style.position.relative;
-     btn.style.top=160;
-     btn.style.left=0;
-
-     document.getElementById("quit").addEventListener("click", quit);
-     */
-
 /************************************************************************************/
 //  analog clock , show people a simple analog clock
 //
@@ -221,13 +221,11 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     function runclock(can_clock) {
 
         can_clock.style.zIndex = 0;
-        can_clock.addEventListener("mousedown", mouseDown, false);
-        can_clock.addEventListener("mousemove", mouseXY, false);
-        can_clock.addEventListener("mouseup", mouseUp, false);
+        setmousedown_listener(can_clock);
+        setmousemove_listener(can_clock);
+        setmouseup_listener(can_clock);
 
-        var run;
-
-        run=window.setInterval(drawClock,1000);
+        var run=window.setInterval(drawClock,1000);
         if(mouseIsDown)
         window.clearInterval(run);
 
@@ -315,6 +313,60 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         ctx_main.fillRect(0,0,400,400);
 
     }
+
+/************************************************************************************/
+//  get element by Id
+//  add mouseeventlistener
+//
+// /***********************************************  */
+function getelement( id){
+    return document.getElementById(id);
+
+}
+function get2Dcontext(element){
+    return element.getContext("2d");
+}
+
+
+function setmousedown_listener(canvas){
+    canvas.addEventListener("mousedown", mouseDown, false);
+}
+function setmouseup_listener(canvas){
+    canvas.addEventListener("mouseup", mouseUp, false);
+}
+function setmousemove_listener(canvas){
+    canvas.addEventListener("mousemove", mouseXY, false);
+}
+
+/***************************************************************/
+//css style wrapper
+//
+//
+/*************************************************************/
+function setelementZindex(elementid,Z) {
+    var element=getelement(elementid);
+    element.style.zIndex=Z;
+}
+function setelementleft(elementid,left) {
+    var element=getelement(elementid);
+    element.style.left=left;
+}
+function setelementtop(elementid,top) {
+    var element=getelement(elementid);
+    element.style.top=top;
+}
+function setelementwidth(elementid,width) {
+    var element=getelement(elementid);
+    element.style.width=width;
+}
+function setelementheight(elementid,height) {
+    var element=getelement(elementid);
+    element.style.height=height;
+}
+
+
+/***************************************************************/
+
 /***************************************************************/
     function loadImage(){
         alert("hi");

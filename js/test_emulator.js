@@ -17,24 +17,21 @@ var travel = (function(){
  * On setup, the script will automatically create a text input within a span
  * Edit button is linked to the showInputBoxes function.
  */
-
-
-
-
 pub.setup = function() {
-    can = document.getElementById("myCanvas");
-    ctx = can.getContext("2d");
-    can.addEventListener("mousedown", mouseDown, false);
-    can.addEventListener("mousemove", mouseXY, false);
-    can.addEventListener("mouseup", mouseUp, false);
-
+    can = getelement("myCanvas");
+    ctx = get2Dcontext(can);
+    setmousedown_listener(can);
+    setmouseup_listener(can);
+    setmousemove_listener(can);
     //app menu
-    main_menu = document.getElementById("main_menu");
-    ctx_main = main_menu.getContext("2d");
-    food_menu = document.getElementById("food_menu");
-    ctx_food = food_menu.getContext("2d");
-    entertain_menu = document.getElementById("entertain_menu");
-    ctx_entertain = entertain_menu.getContext("2d");
+    main_menu = getelement("main_menu");
+    ctx_main = get2Dcontext(main_menu);
+    setmousedown_listener(main_menu);
+    setmousemove_listener(main_menu);
+    setmouseup_listener(main_menu);
+    mainmenu(ctx_main);
+    hideelement("main_menu");
+
     //frame of watch
     draw_watch_frame(ctx, 200, 200, 200, 200, 10);
     draw_inner_frame(ctx, 200, 200, 160, 160);
@@ -52,18 +49,20 @@ pub.setup = function() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
 
     };
-    var map_element=document.getElementById("googleMap");
-    google.maps.event.addDomListener(window, 'load', initialize(map_element,mapProp));
+    var map_element=getelement("googleMap");
+    init_googlemap( map_element,mapProp);
     //first screen
     var image='../images/travel.jpg'
     drawfirstscreen(ctx,120,120,image);
 
     //clock app
-    can_clock = document.getElementById("canvas_clock");
-    ctx_c = can_clock.getContext("2d");
+    can_clock = getelement("canvas_clock");
+    ctx_c = get2Dcontext(can_clock);
     radius_c = can_clock.height / 2;
     ctx_c.translate(radius_c, radius_c);
     radius_c = radius_c * 0.90;
+    runclock(can_clock);
+    hideelement("canvas_clock");
 
 };
     return pub;
@@ -79,36 +78,18 @@ function showPos() {
         console.log("Mouse is up");
     if (Swipe_Right) {
         console.log("Swipe Right");
-        if (Layer == 0) {
-            Layer=10;
-            pop_googlemaps();
-        }
+        showelement("googleMap")
     }
     if (Swipe_Left){
+        showelement("canvas_clock");
         console.log("Swipe Left");
-        if(Layer==0){
-            runclock(can_clock);
-            Layer=2;}
     }
     if (Swipe_Up) {
-        var main = document.getElementById("main_menu");
-        main.style.zIndex = 0;
-        mainmenu(ctx_main);
+        showelement("main_menu");
         console.log("Swipe Up");
     }
-    if (Swipe_Down)
-        if(Layer==2)
-        {
-            var clock = document.getElementById("canvas_clock");
-            clock.style.zIndex = -2;
-            Layer=0;
-        }
-    console.log("Swipe Down");
+    if (Swipe_Down){
+        hideelement("canvas_clock");
+        console.log("Swipe Down");}
 }
 
-function pop_googlemaps(){
-    console.log(Layer)
-    var maps = document.getElementById("googleMap");
-    maps.style.zIndex = 0;
-    gps_location();
-}
