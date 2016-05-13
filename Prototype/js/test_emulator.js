@@ -49,7 +49,7 @@ pub.setup = function() {
     var map_element=getelement("googleMap");
     init_googlemap( map_element,mapProp);
     //first screen
-    var image='../images/travel.jpg'
+    var image='images/travel.jpg';
     drawfirstscreen(ctx,120,120,image);
 
     //clock app
@@ -70,14 +70,14 @@ $(document).ready(travel.setup);
 
 function showPos() {
     if (mouseIsDown)
-        console.log("Mouse is down")
+        console.log("Mouse is down");
     if (!mouseIsDown)
         console.log("Mouse is up");
     if (Swipe_Right) {
         Layer++;
         console.log("Swipe Right");
         if(Layer>=1)
-        showelement("googleMap")
+        showelement("googleMap");
         if(Layer==2)
         gps_location();
         if(Layer==3){

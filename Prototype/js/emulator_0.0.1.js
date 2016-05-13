@@ -215,7 +215,7 @@ function text_search(text,distance) {
 function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         var result;
-        for (var i = 0, result; result = results[i]; i++) {
+        for (var i = 0; result = results[i]; i++) {
             addMarker(result);
 
         }
@@ -237,7 +237,7 @@ function radar_search(keyword,radius) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
-            }
+            };
             var current_location = new google.maps.LatLng(pos.lat, pos.lng);
 
             map = new google.maps.Map(getelement("googleMap"), {
