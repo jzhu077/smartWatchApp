@@ -8,6 +8,8 @@
     var Swipe_Right = 0, Swipe_Left = 0, Swipe_Up = 0, Swipe_Down = 0;//mouse swipe event
     var lastMouseDown = {x: null, y: null};// mouse position when click
     var map=0;
+    var service;
+    var infoWindow;
     //var Layer = 0;
 
     var main_menu = 0;
@@ -135,14 +137,19 @@
         CenterControl.index=1;
         map.controls[google.maps.ControlPosition.LEFT_TOP].push(quitmap);
         gps_location();
-
     }
-
+/******************************************/
+// get Gps location
+//
+//
+//
+//
     function gps_location(){
-    var infoWindow = new google.maps.InfoWindow({
+
+    infoWindow = new google.maps.InfoWindow({
         map: map
     });
-    // Try HTML5 geolocation.
+    //Try HTML5 geolocation.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -168,13 +175,115 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setContent(browserHasGeolocation ?
         'Error: The Geolocation service failed.' :
         'Error: Your browser doesn\'t support geolocation.');
-
     }
 
-function pop_googlemaps(){
-    var maps = getelement("googleMap");
-    maps.style.zIndex = 0;
+var service;
+
+function text_search(text,distance) {
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }
+            var current_location = new google.maps.LatLng(pos.lat, pos.lng);
+
+            map = new google.maps.Map(getelement("googleMap"), {
+                center: current_location,
+                zoom: 14,
+                panControl: true,
+                zoomControl: true,
+                //mapTypeControl:true,
+                scaleControl: true,
+                streetViewControl: true,
+                overviewMapControl: true,
+                rotateControl: true,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            var request = {
+                location: current_location,
+                radius: distance,
+                query: text
+            };
+            service = new google.maps.places.PlacesService(map);
+            service.textSearch(request, callback);
+        });
+    }
+}
+function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        var result;
+        for (var i = 0, result; result = results[i]; i++) {
+            addMarker(result);
+
+        }
+    }
+}
+
+function findfood(){
+    text_search();
+}
+
+function findlocation(){
     gps_location();
+}
+
+
+function radar_search(keyword,radius) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }
+            var current_location = new google.maps.LatLng(pos.lat, pos.lng);
+
+            map = new google.maps.Map(getelement("googleMap"), {
+                center: current_location,
+                zoom: 14,
+                zoomControl: true,
+                streetViewControl: true,
+                overviewMapControl: true
+                //mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            infoWindow = new google.maps.InfoWindow();
+
+            service = new google.maps.places.PlacesService(map);
+            var request = {
+                bounds: map.getBounds(),
+                keyword: keyword,
+                radius:radius
+                //query: "restaurant"
+            };
+            service.radarSearch(request, callback);
+
+        });
+    }
+}
+
+function addMarker(place) {
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location,
+        icon: {
+            url: '../images/circle.png',
+            anchor: new google.maps.Point(10, 10),
+            scaledSize: new google.maps.Size(10, 17)
+        }
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        service.getDetails(place, function(result, status) {
+            if (status !== google.maps.places.PlacesServiceStatus.OK) {
+                console.error(status);
+                return;
+            }
+            infoWindow.setContent(result.name);
+            infoWindow.open(map, marker);
+        });
+    });
 }
 
 /************************************************************************************/
@@ -382,10 +491,6 @@ function setelementheight(elementid,height) {
         var GPS = $(".pages").val();
         Cookie.set("GPS",GPS);
         console.log(Cookie.get("GPS"));
-    }
-
-    function findFood(){
-
     }
 
     function setButtons(){

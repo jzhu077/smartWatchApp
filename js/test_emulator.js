@@ -36,18 +36,15 @@ pub.setup = function() {
     draw_watch_frame(ctx, 200, 200, 200, 200, 10);
     draw_inner_frame(ctx, 200, 200, 160, 160);
     //google map
+
     var mapProp = {
         center: new google.maps.LatLng(-45.88, 170.5),
         zoom: 13,
-        panControl: true,
+        //panControl: true,
         zoomControl: true,
-        //mapTypeControl:true,
-        scaleControl: true,
         streetViewControl: true,
-        overviewMapControl: true,
-        rotateControl: true,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-
+        overviewMapControl: true
+        //mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map_element=getelement("googleMap");
     init_googlemap( map_element,mapProp);
@@ -77,8 +74,16 @@ function showPos() {
     if (!mouseIsDown)
         console.log("Mouse is up");
     if (Swipe_Right) {
+        Layer++;
         console.log("Swipe Right");
+        if(Layer>=1)
         showelement("googleMap")
+        if(Layer==2)
+        gps_location();
+        if(Layer==3){
+        //text_search('restaurant','1000');
+            radar_search('restaurant','1000');
+        }
     }
     if (Swipe_Left){
         showelement("canvas_clock");
