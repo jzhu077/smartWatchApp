@@ -476,32 +476,20 @@ function setelementheight(elementid,height) {
 
 /***************************************************************/
 
-/***************************************************************/
-    function loadImage(){
-        alert("hi");
-        console.log("hi");
-        var html = "<img src=travel.jpg>";
-        $(".app").append(html);
+
+function getGPSlocation(){
+
+    var pos;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+             pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+        });
     }
-
-    /** Will get GPS location.
-     *
-     */
-    function getGPS(){
-        var GPS = $(".pages").val();
-        Cookie.set("GPS",GPS);
-        console.log(Cookie.get("GPS"));
-    }
-
-    function setButtons(){
-
-    }
-
-    /** Uses the getGPS function to set a radius and show to user.*/
-    function pickRadius(){
-
-    }
-
+    return pos;
+}
 
 
 

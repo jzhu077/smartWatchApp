@@ -49,8 +49,8 @@ pub.setup = function() {
     var map_element=getelement("googleMap");
     init_googlemap( map_element,mapProp);
     //first screen
-    var image='images/travel.jpg';
-    drawfirstscreen(ctx,120,120,image);
+    //var image='images/travel.jpg';
+    //drawfirstscreen(ctx,120,120,image);
 
     //clock app
     can_clock = getelement("canvas_clock");
@@ -97,4 +97,28 @@ function showPos() {
         hideelement("canvas_clock");
         console.log("Swipe Down");}
 }
+
+function showRadius(var option){
+
+}
+
+/** Returns 1, 2 or 3
+ * 1 - Accomodation
+ * 2 - Entertainment
+ * 3 - Public Services (eg Buses, Toilets etc.)
+ */
+function getInput(var number){
+
+}
+
+/**
+ *
+ * Should show the results to the user in a list view.
+ *
+ */
+function showPage(){
+
+}
+
+
 
