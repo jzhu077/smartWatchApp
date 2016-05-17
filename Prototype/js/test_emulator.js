@@ -10,13 +10,44 @@ var ctx_main = 0;
 var ctx_food = 0;
 var ctx_entertain = 0;//canvas menu
 var Layer=0;
-var travel = (function(){
+var emulator = (function(){
     "use strict";
     var pub = {};
 /**
  * On setup, the script will automatically create a text input within a span
  * Edit button is linked to the showInputBoxes function.
  */
+function showPos() {
+    if (mouseIsDown)
+        console.log("Mouse is down");
+    if (!mouseIsDown)
+        console.log("Mouse is up");
+    if (Swipe_Right) {
+        Layer++;
+        console.log("Swipe Right");
+        if(Layer>=1)
+            showelement("googleMap");
+        if(Layer==2)
+            gps_location();
+        if(Layer==3){
+            //text_search('restaurant','1000');
+            radar_search('restaurant','1000');
+        }
+    }
+    if (Swipe_Left){
+        showelement("canvas_clock");
+        console.log("Swipe Left");
+    }
+    if (Swipe_Up) {
+        showelement("main_menu");
+        console.log("Swipe Up");
+    }
+    if (Swipe_Down){
+        hideelement("canvas_clock");
+        console.log("Swipe Down");}
+}
+
+
 pub.setup = function() {
     can = getelement("myCanvas");
     ctx = get2Dcontext(can);
@@ -60,54 +91,25 @@ pub.setup = function() {
     radius_c = radius_c * 0.90;
     runclock(can_clock);
     hideelement("canvas_clock");
+    showPos();
+
 
 };
     return pub;
 }());
 
-$(document).ready(travel.setup);
+$(document).ready(emulator.setup);
 
 
-function showPos() {
-    if (mouseIsDown)
-        console.log("Mouse is down");
-    if (!mouseIsDown)
-        console.log("Mouse is up");
-    if (Swipe_Right) {
-        Layer++;
-        console.log("Swipe Right");
-        if(Layer>=1)
-        showelement("googleMap");
-        if(Layer==2)
-        gps_location();
-        if(Layer==3){
-        //text_search('restaurant','1000');
-            radar_search('restaurant','1000');
-        }
-    }
-    if (Swipe_Left){
-        showelement("canvas_clock");
-        console.log("Swipe Left");
-    }
-    if (Swipe_Up) {
-        showelement("main_menu");
-        console.log("Swipe Up");
-    }
-    if (Swipe_Down){
-        hideelement("canvas_clock");
-        console.log("Swipe Down");}
-}
 
-function showRadius(var option){
 
-}
 
 /** Returns 1, 2 or 3
  * 1 - Accomodation
  * 2 - Entertainment
  * 3 - Public Services (eg Buses, Toilets etc.)
  */
-function getInput(var number){
+function getInput(rad){
 
 }
 
@@ -119,6 +121,7 @@ function getInput(var number){
 function showPage(){
 
 }
+
 
 
 

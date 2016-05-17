@@ -2,7 +2,7 @@
 
 
 body {
-    font-family:"timesnewromans"
+    font-family:"timesnewromans";
     font-weight: 300;
     font-size: 15px;
     line-height: 25px;
@@ -73,46 +73,66 @@ div.relative {
 
 div.maps {
     position: absolute;
-    top:121px;
+    top:129px;
     z-index: -10;
-    left: 121px;
+    left: 129px;
     width: 160px;
     height: 160px;
     border: 0px solid #73AD21;
 }
 canvas.clock{
     position: absolute;
-    top: 121px;
+    top: 129px;
     z-index: -2;
-    left: 121px;
+    left: 129px;
     width: 160px;
     height: 160px;
     border: 0px solid #73AD21;
 }
 canvas.m1{
     position: absolute;
-    top: 121px;
+    top: 129px;
     z-index: -3;
-    left: 121px;
+    left: 129px;
     width: 160px;
     height: 160px;
     border: 0px solid #73AD21;
 }
 canvas.m2{
     position: absolute;
-    top: 121px;
+    top: 129px;
     z-index: -4;
-    left: 121px;
+    left: 129px;
     width: 160px;
     height: 160px;
     border: 0px solid #73AD21;
 }
 canvas.m3{
     position: absolute;
-    top: 121px;
+    top: 129px;
     z-index: -5;
-    left: 121px;
+    left: 129px;
     width: 160px;
     height: 160px;
     border: 0px solid #73AD21;
+}
+.app{
+    position: absolute;
+    top: 129px;
+    z-index: 5;
+    left: 129px;
+    width: 160px;
+    height: 160px;
+
+}
+.firstMenu, .radius{
+    padding: inherit;
+}
+.firstMenu li, .radius li{
+    list-style: none;
+    text-align: center;
+    padding-left: 0px;
+    padding-bottom: 24px;
+    padding-bottom: 24px;
+
 }
