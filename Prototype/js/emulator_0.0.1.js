@@ -2,41 +2,81 @@
  * Created by Frankyang on 1/04/2016.
  */
 
+/**
+ * Created by Frankyang on 12/05/2016.
+ */
 
-    var can, ctx, canX, canY, mouseIsDown = 0;
-    var can_clock, ctx_c, radius_c = 0;// analog clock
+
+var emulator = (function(){
+    "use strict";
+    
+    var Layer=0;
+    
     var Swipe_Right = 0, Swipe_Left = 0, Swipe_Up = 0, Swipe_Down = 0;//mouse swipe event
+    
+    var  ctx_c, radius_c = 0;// analog clock
+    
+    var can, ctx, canX, canY, mouseIsDown = 0;//mouse event
+    
     var lastMouseDown = {x: null, y: null};// mouse position when click
-    var map=0;
-    var service;
+    
+    var map;
     var infoWindow;
-    //var Layer = 0;
+    var service;
+    
+    var pub = {};
 
-    var main_menu = 0;
-    var food_menu = 0;
-    var entertain_menu = 0;// canvas menu
-    var ctx_main = 0;
-    var ctx_food = 0;
-    var ctx_entertain = 0;//canvas menu
-    // layer, used to describe the activities
-    //eg. different screen are put in different layers, when its function is called by user
-    //the app in specific layer will be bring to foreground.
+    var showPos=function () {
+    if (mouseIsDown)
+        console.log("Mouse is down")
+    if (!mouseIsDown)
+        console.log("Mouse is up");
+    if (Swipe_Right) {
+        Layer++;
+        console.log("Swipe Right");
+        if(Layer>=1)
+        showelement("googleMap")
+        if(Layer==2)
+        gps_location();
+        if(Layer==3){
+        //text_search('restaurant','1000');
+            radar_search('restaurant','1000');
+        }
+    }
+    if (Swipe_Left){
+        showelement("canvas_clock");
+        console.log("Swipe Left");
+    }
+    if (Swipe_Up) {
+        showelement("main_menu");
+        console.log("Swipe Up");
+    }
+    if (Swipe_Down){
+        hideelement("canvas_clock");
+        console.log("Swipe Down");}
+}
+
+    
+
+// layer, used to describe the activities
+//eg. different screen are put in different layers, when its function is called by user
+//the app in specific layer will be bring to foreground.
 
 /************************************************************************************/
 //  canvas mouse event detect mouse up and down or swipe left/right/up/down
 //
 ///***********************************************  */
-    function drawfirstscreen(ctx,x,y,image) {
+    function drawImage(ctx,x,y,image,id) {
     var imageObj = new Image();
     imageObj.src = image;
-    imageObj.id = "apple";
-    imageObj.style.zIndex = -2;
+    imageObj.id = id;
+    imageObj.style.zIndex = -10;
 
     imageObj.onload = function () {
         ctx.drawImage(imageObj, x, y);
     };
-
 }
+
 /************************************************************************************/
 //  canvas mouse event detect mouse up and down or swipe left/right/up/down
 //
@@ -52,9 +92,9 @@
         mouseIsDown = 1;
         lastMouseDown.x = event.clientX;
         lastMouseDown.y = event.clientY;
-        Swipe_Down=0;
-        Swipe_Left=0;
-        Swipe_Up=0;
+        Swipe_Down= 0;
+        Swipe_Left= 0;
+        Swipe_Up= 0;
         Swipe_Right=0;
         showPos();
     }
@@ -89,6 +129,69 @@
     setelementZindex(elementid,-10);
     }
 
+  /************************************************************************************/
+//  get element by Id
+//  add mouseeventlistener
+//
+// /***********************************************  */
+function NewElement(id){
+    return document.createElement(id);
+}
+
+
+function getelement( id){
+    return document.getElementById(id);
+
+}
+function get2Dcontext(element){
+    return element.getContext("2d");
+}
+
+
+function setmousedown_listener(canvas){
+    canvas.addEventListener("mousedown", mouseDown, false);
+}
+function setmouseup_listener(canvas){
+    canvas.addEventListener("mouseup", mouseUp, false);
+}
+function setmousemove_listener(canvas){
+    canvas.addEventListener("mousemove", mouseXY, false);
+}
+
+ 
+/***************************************************************/
+//css style wrapper
+//
+//
+/*************************************************************/
+function setelementZindex(elementid,Z) {
+    var element=getelement(elementid);
+    element.style.zIndex=Z;
+}
+function setelementleft(elementid,left) {
+    var element=getelement(elementid);
+    element.style.left=left;
+}
+function setelementtop(elementid,top) {
+    var element=getelement(elementid);
+    element.style.top=top;
+}
+function setelementwidth(elementid,width) {
+    var element=getelement(elementid);
+    element.style.width=width;
+}
+function setelementheight(elementid,height) {
+    var element=getelement(elementid);
+    element.style.height=height;
+}
+function setelementposition(elementid,absorrel) {
+    var element=getelement(elementid);
+    element.style.position=absorrel;
+}
+
+/***************************************************************/   
+
+    
 /************************************************************************************/
 //  google maps draw a simple google map on watch
 //  require network connection
@@ -146,10 +249,9 @@
 //
     function gps_location(){
 
-    infoWindow = new google.maps.InfoWindow({
+    var infoWindow = new google.maps.InfoWindow({
         map: map
     });
-    //Try HTML5 geolocation.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -158,17 +260,14 @@
             };
 
             infoWindow.setPosition(pos);
-            //infoWindow.width=300;
-            //infoWindow.height=30;
             infoWindow.setContent('You are here');
             map.setCenter(pos);
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
+        	handleLocationError(false, infoWindow, map.getCenter());
+    	}
 }
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
@@ -177,7 +276,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         'Error: Your browser doesn\'t support geolocation.');
     }
 
-var service;
 
 function text_search(text,distance) {
 
@@ -209,13 +307,14 @@ function text_search(text,distance) {
             };
             service = new google.maps.places.PlacesService(map);
             service.textSearch(request, callback);
+            
         });
     }
 }
 function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         var result;
-        for (var i = 0; result = results[i]; i++) {
+        for (var i = 0, result; result = results[i]; i++) {
             addMarker(result);
 
         }
@@ -237,7 +336,7 @@ function radar_search(keyword,radius) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
-            };
+            }
             var current_location = new google.maps.LatLng(pos.lat, pos.lng);
 
             map = new google.maps.Map(getelement("googleMap"), {
@@ -264,6 +363,7 @@ function radar_search(keyword,radius) {
 }
 
 function addMarker(place) {
+    
     var marker = new google.maps.Marker({
         map: map,
         position: place.geometry.location,
@@ -275,6 +375,7 @@ function addMarker(place) {
     });
 
     google.maps.event.addListener(marker, 'click', function() {
+        
         service.getDetails(place, function(result, status) {
             if (status !== google.maps.places.PlacesServiceStatus.OK) {
                 console.error(status);
@@ -328,6 +429,11 @@ function addMarker(place) {
 // /***********************************************  */
 
     function runclock(can_clock) {
+            
+        ctx_c = get2Dcontext(can_clock);
+        radius_c = can_clock.height / 2;
+        ctx_c.translate(radius_c, radius_c);
+        radius_c = radius_c * 0.90;
 
         can_clock.style.zIndex = 0;
         setmousedown_listener(can_clock);
@@ -336,14 +442,16 @@ function addMarker(place) {
 
         var run=window.setInterval(drawClock,1000);
         if(mouseIsDown)
-        window.clearInterval(run);
+            window.clearInterval(run);
 
 
     }
-    function drawClock() {
+    function drawClock(){
+      
         drawFace(ctx_c, radius_c);
         drawNumbers(ctx_c, radius_c);
         drawTime(ctx_c, radius_c);
+        
     }
 
     function drawFace(ctxc, radius) {
@@ -423,60 +531,57 @@ function addMarker(place) {
 
     }
 
-/************************************************************************************/
-//  get element by Id
-//  add mouseeventlistener
-//
-// /***********************************************  */
-function getelement( id){
-    return document.getElementById(id);
-
-}
-function get2Dcontext(element){
-    return element.getContext("2d");
-}
-
-
-function setmousedown_listener(canvas){
-    canvas.addEventListener("mousedown", mouseDown, false);
-}
-function setmouseup_listener(canvas){
-    canvas.addEventListener("mouseup", mouseUp, false);
-}
-function setmousemove_listener(canvas){
-    canvas.addEventListener("mousemove", mouseXY, false);
-}
-
-/***************************************************************/
-//css style wrapper
-//
-//
-/*************************************************************/
-function setelementZindex(elementid,Z) {
-    var element=getelement(elementid);
-    element.style.zIndex=Z;
-}
-function setelementleft(elementid,left) {
-    var element=getelement(elementid);
-    element.style.left=left;
-}
-function setelementtop(elementid,top) {
-    var element=getelement(elementid);
-    element.style.top=top;
-}
-function setelementwidth(elementid,width) {
-    var element=getelement(elementid);
-    element.style.width=width;
-}
-function setelementheight(elementid,height) {
-    var element=getelement(elementid);
-    element.style.height=height;
-}
 
 
 /***************************************************************/
 
 
+
+/************************/
+function show_starti(menu){
+    
+    var appbox=getelement("AppBox");
+    for(i=0;i<menu.length;i++){
+    var btn= NewElement(menu[i]);
+    appbox.appendChild(btn);
+    setelementposition(menu[i],"relative");
+    setelementtop(menu[i],20);
+    setelementleft(menu[i],121);
+    setelementwidth(menu[i],auto);
+    setelementheight(menu[i],auto);        
+    btn.onclick=function(){};
+    }
+}
+
+function show_Radiusi(menu){
+    var appbox=getelement("AppBox");
+    for(i=0;i<menu.length;i++){
+    var btn= NewElement(menu[i]);
+    appbox.appendChild(btn);
+    setelementposition(menu[i],"relative");
+    setelementtop(menu[i],20);
+    setelementleft(menu[i],121);
+    setelementwidth(menu[i],auto);
+    setelementheight(menu[i],auto);        
+    btn.onclick=function(){showRadius()};
+    }
+}
+
+/******local storage save item*****/
+
+function local_save(Itemname, itemvalue){
+        
+    localStorage.setItem(Itemname,itemvalue);
+}
+
+function local_get(itemname){
+    
+    return localStorage.getItem(itemname);
+}
+
+
+    
+/***************************************************************/
 function getGPSlocation(){
 
     var pos;
@@ -490,6 +595,62 @@ function getGPSlocation(){
     }
     return pos;
 }
+    
+    
+/**
+ * On setup, the script will automatically create a text input within a span
+ * Edit button is linked to the showInputBoxes function.
+ */
+pub.setup = function() {
+    can = getelement("myCanvas");
+    ctx = get2Dcontext(can);
+    setmousedown_listener(can);
+    setmouseup_listener(can);
+    setmousemove_listener(can);
+    //app menu
+    var main_menu = getelement("main_menu");
+    var ctx_main = get2Dcontext(main_menu);
+    setmousedown_listener(main_menu);
+    setmousemove_listener(main_menu);
+    setmouseup_listener(main_menu);
+    mainmenu(ctx_main);
+    hideelement("main_menu");
+
+    //frame of watch
+    draw_watch_frame(ctx, 200, 200, 200, 200, 10);
+    draw_inner_frame(ctx, 200, 200, 160, 160);
+    //google map
+
+    var mapProp = {
+        center: new google.maps.LatLng(-45.88, 170.5),
+        zoom: 13,
+        //panControl: true,
+        zoomControl: true,
+        streetViewControl: true,
+        overviewMapControl: true
+        //mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map_element=getelement("googleMap");
+    init_googlemap( map_element,mapProp);
+    //first screen
+    var image='../images/travel.jpg'
+    drawImage(ctx,120,120,image);
+
+    //clock app
+    var can_clock = getelement("canvas_clock");
+
+    runclock(can_clock);
+    hideelement("canvas_clock");
+
+};
+    return pub;
+}());
+
+$(document).ready(emulator.setup);
+
+
+
+
 
 
 
