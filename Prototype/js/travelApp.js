@@ -1,3 +1,9 @@
+/*
+Created by Junyu 
+Edited by Ana
+*/
+
+
 var travel = (function () {
             "use strict";
             var pub = {};
@@ -40,44 +46,27 @@ var travel = (function () {
                 $('.firstMenu').remove();
                 var radius = {
                     radiusNum: 3,
-                    r1: "< 1 km",
-                    r2: "< 5 km",
-                    r3: "> 5 km"
+                    r1: "1km",
+                    r2: "5km",
+                    r3: "20km"
                 };
                 e2.showRadius(radius);
-            }
+            };
 
 
-            function secondOptions(opt) {
-                var toDo = localStorage.getItem("toDo");
+            pub.secondOptions=function() {
+                var keyword = localStorage.getItem("Menu1");
+                var radius = localStorage.getItem("Radius1");  
+                console.log(typeof(keyword));
+                console.log(typeof(radius));             
 
-                var search = (function search() {
-
-
-                }());
-                if (opt == 1) {
-                    var x = {
-                            radius: search(),
-
-                        }
-                        ;
-                }
-                else if (opt == 2) {
-
-                } else if (opt == 3) {
-                }
-            }
-
-
-            /**
-             * On setup, the script will automatically create a text input within a span
-             * Edit button is linked to the showInputBoxes function.
-             */
+                emulator.radar_search_info(keyword,radius);
+                console.log(emulator.radarservice_result[0]);                 
+               
+            };
             pub.setup = function () {
                 start();
-                storage();
-                loadImage();
-                getGPS();
+                storage();               
 
             };
             return pub;
