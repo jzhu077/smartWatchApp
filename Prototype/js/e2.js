@@ -1,25 +1,50 @@
 /**
  * Created by Junyu on 5/17/2016.
+ * edited on 5/20/2016
  */
 var e2 = (function () {
         "use strict";
         var pub = {};
+
+        pub.radClick = function(rad){
+            console.log(rad);
+            $("#" + rad.r1).click ( function () {
+                localStorage.setItem("Radius1", 1000);
+                alert("good" + rad.r1);
+                travel.secondOptions(1);
+            });
+             $("#" + rad.r2).click ( function () {
+                localStorage.setItem("Radius1", 5000);
+                alert("good" + rad.r2);
+                travel.secondOptions(2);
+            });
+              $("#" + rad.r3).click ( function () {
+                localStorage.setItem("Radius1", 10000);
+                alert("good" + rad.r3);
+                travel.secondOptions(3);
+            });
+        }
+
+
         pub.getClick = function(menu){
+            console.log(menu);
             $("#" + menu.b1).click( function () {
-                localStorage.setItem("todoOpt", 111);
+                localStorage.setItem("Menu1", menu.b1);
                 alert("good" + menu.b1);
                 travel.mainOptions();
             });
             $("#" + menu.b2).click( function () {
-                localStorage.setItem("todoOpt", 111);
+                localStorage.setItem("Menu1", menu.b2);
                 alert("good" + menu.b2);
                 travel.mainOptions();
             });
             $("#" + menu.b3).click ( function () {
-                localStorage.setItem("todoOpt", 111);
+                localStorage.setItem("Menu1", menu.b3);
                 alert("good" + menu.b3);
                 travel.mainOptions();
-            });
+            });           
+
+
         };
 
         pub.showStart = function(menu){
@@ -37,6 +62,7 @@ var e2 = (function () {
             $(".radius").append("<li><button type='button' id ='" + radius.r2 + "'>" + radius.r2 + "</button></li>");
             $(".radius").append("<li><button type='button' id ='" + radius.r3 + "'>" + radius.r3 + "</button></li>");
             $(".app").append("</ul>");
+            e2.radClick(radius);
         }
 
 

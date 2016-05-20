@@ -104,24 +104,5 @@ $(document).ready(emulator.setup);
 
 
 
-/** Returns 1, 2 or 3
- * 1 - Accomodation
- * 2 - Entertainment
- * 3 - Public Services (eg Buses, Toilets etc.)
- */
-function getInput(rad){
-
-}
-
-/**
- *
- * Should show the results to the user in a list view.
- *
- */
-function showPage(){
-
-}
-
-
 
 
