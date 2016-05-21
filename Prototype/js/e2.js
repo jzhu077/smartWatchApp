@@ -40,7 +40,10 @@ var e2 = (function () {
             travel.mainOptions();
         });
         $("#" + menu.b3).click(function () {
+<<<<<<< HEAD
             console.log("good");
+=======
+>>>>>>> origin/master
             localStorage.setItem("Menu1", menu.b3);
             alert("good" + menu.b3);
             travel.mainOptions();

@@ -32,7 +32,11 @@ var travel = (function () {
             menuNum: 3,
             b1: "Accommodation",
             b2: "Entertainment",
+<<<<<<< HEAD
             b3: "Public"
+=======
+            b3: "Public Facilities"
+>>>>>>> origin/master
         };
         e2.showStart(menu);  //showStart will set doDo variable to be one of the options above
     }
@@ -60,7 +64,11 @@ var travel = (function () {
         console.log(typeof(keyword));
         console.log(typeof(radius));
 
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> origin/master
         emulator.radar_search_info(keyword, radius);
         //console.log(emulator.radarservice_result[0]);
 
