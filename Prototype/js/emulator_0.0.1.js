@@ -389,7 +389,8 @@ var emulator = (function(){
         var pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
-        }
+        };
+
         var current_location = new google.maps.LatLng(pos.lat, pos.lng);
         map = new google.maps.Map(getelement("googleMap"), {
           center: current_location,
@@ -412,7 +413,8 @@ var emulator = (function(){
   function callback_text(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       var result;
-      for (var i = 0, result; result = results[i]; i++) {
+      for (var i = 0; i < results.length; i++) {
+        result = results[i];
         service.getDetails(result, function (result, status) {
           if (status !== google.maps.places.PlacesServiceStatus.OK) {
             console.error(status);
@@ -721,7 +723,7 @@ var emulator = (function(){
     var map_element=getelement("googleMap");
     init_googlemap( map_element,mapProp);
     //first screen
-    var image='../images/travel.jpg'
+    var image='images/travel.jpg'
     drawImage(ctx,120,120,image);
 
     //clock app
