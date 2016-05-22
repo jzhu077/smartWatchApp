@@ -442,8 +442,7 @@ var emulator = (function(){
       
     }
   }
-
-  function calculate_distance(src,dst){
+  pub.calculate_distance = function (src,dst){
     service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
         {
@@ -466,15 +465,19 @@ var emulator = (function(){
                 var duration = element.duration.text;
                 var from = origins[i];
                 var to = destinations[j];
-                console.log(distance);
-                console.log(duration);
+                //localStorage.setItem("distanceAB", distance);
+                //console.log(localStorage.getItem("distanceAB"));
+                //travel.storeDisplay(distance);
+
+                //console.log(duration);
 
               }
             }
           }
-        });
-  }
 
+        });
+  };
+  
   /***************************************************************/
   function getGPSlocation(){
 
