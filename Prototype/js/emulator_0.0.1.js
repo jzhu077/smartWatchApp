@@ -46,14 +46,15 @@ var emulator = (function(){
       if(Layer===2){
         gps_location();
         //text_search('restaurant','1000');
-        radar_search_info('restaurant','1000');}
+      //  radar_search_info('restaurant','1000');
+      }
     }
     if (Swipe_Left){
       showelement("canvas_clock");
       console.log("Swipe Left");
     }
     if (Swipe_Up) {
-      showelement("main_menu");
+
       console.log("Swipe Up");
     }
     if (Swipe_Down){
@@ -563,23 +564,22 @@ var emulator = (function(){
 
 
   /************************************************************************************/
-//  analog clock , show people a simple analog clock
+//  analog clock , show people a simple analog clock (might be able to implemented in the future)
 //
 //
 // /***********************************************  */
-
+/*
   function runclock(can_clock) {
 
     ctx_c = get2Dcontext(can_clock);
     radius_c = can_clock.height / 2;
     ctx_c.translate(radius_c, radius_c);
     radius_c = radius_c * 0.90;
-
     can_clock.style.zIndex = 0;
     setmousedown_listener(can_clock);
     setmousemove_listener(can_clock);
     setmouseup_listener(can_clock);
-
+      $(".app").append("<button type = 'button' id='back'>Back</button>");
     var run=window.setInterval(drawClock,1000);
     if(mouseIsDown) {window.clearInterval(run);}
 
@@ -660,6 +660,7 @@ var emulator = (function(){
     ctx.stroke();
     ctx.rotate(-pos);
   }
+  */
   /************************************************************************************/
 //  draw main menu on canvas
 //
@@ -802,6 +803,7 @@ var emulator = (function(){
         "<li><button type='button' id ='" + menu.b1 + "'>" + menu.b1 + "</button></li>" +
         "<li><button type='button' id ='" + menu.b2 + "'>" + menu.b2 + "</button></li>" +
         "<li><button type='button' id ='" + menu.b3 + "'>" + menu.b3 + "</button></li></ul>");
+    showelement(menu.b1);
 
     emulator.getMenuClick(menu);
   };
@@ -845,6 +847,7 @@ var emulator = (function(){
   pub.showAppIcon = function (){
     $(".app").children().remove();
     $(".app").append("<button type = 'button' id='travel'>Travel App</button>");
+
     $("#travel").click(function(){
       travel.start();
     });
@@ -887,13 +890,13 @@ var emulator = (function(){
     init_googlemap( map_element,mapProp);
     //first screen
     var image='images/travel.jpg';
-    drawImage(ctx,120,120,image);
+   // drawImage(ctx,120,120,image);
 
     //clock app
     var can_clock = getelement("canvas_clock");
 
-    runclock(can_clock);
-    hideelement("canvas_clock");
+    //runclock(can_clock);
+    //hideelement("canvas_clock");
 
     
 

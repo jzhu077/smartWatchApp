@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="css/COSC345.css">
+<meta charset="UTF-8">
+<title> COSC345 Assignment 2 </title>
+<body>
+
+<nav id="menu">
+    <h2 class="content-subhead"> Contents</h2>
+    <ul>
+        <li><a href="#about_the_emulator">About the Emulator </a></li>
+        <li><a href="#experience_in_developing">Experience in developing the Travel App </a></li>
+        <li><a href="#changes_to_travel_app">Changes to the Travel App </a></li>
+        <li><a href="#unit_tests">Unit Tests </a></li>
+        <li><a href="#revised_estimates">Revised Estimates </a></li>
+    </ul>
+    <h2 class="content-subhead"> App</h2>
+    <ul>
+        <li><a href="AppEmulator.html">Travel app</a></li>
+    </ul>
+</nav>
+
+<section class="content">
+    <header>
+        <h1>COSC345 PROJECT REPORT</h1>
+        <b> maintaned by The Perfect Work Team </b>
+    </header>
+    <div id="team_members">
+
+        <h2> Team Members </h2>
+
+        <h4> Junyu Zhu (zhu908@student.otago.ac.nz , 9475415): </h4>
+
+        <h4> Alycia Ng (alycia_nse@hotmail.com , 8170944): </h4>
+
+        <h4> Ana Baltazar (anafrancinebaltazar@gmail.com , 7002399): </h4>
+
+        <h4> Jialin Yang (garinyang@gmail.com , 7674607): </h4>
+
+    </div>
+    <div><h2>The link to the Travel app can be located at the side navigation menu or <a href="AppEmulator.html">here.</a></h2></div>
+
+    <div id="about_the_emulator">
+
+        <h1>About the Emulator</h1>
+
+        <h2>Linking the Emulator and the Travel Application together</h2>
+
+        <p>The emulator has functions that provide a service to the Travel App. For example, the emulator receives user
+            input through a button click and sends this input to the Travel App. The Travel App processes information
+            through functions. The outputs of these functions from the Travel App are sent back to the emulator for
+            display to the user. </p>
+        <p>One of the ways, the Travel App processes information is by using Google Maps API provided by the Emulator.
+            For example, when a user asks for a radar search within 5 km, the emulator will pass this information to the
+            App. Once the Travel App receives this information, it can then access its database and sort the locations
+            based on calculated distances between current location and destinations using functions from the emulator.
+            The sorted locations are then passed back to the emulator for display to the user as a list. </p>
+        <p>The emulator also calculates the distance between point A to point B. For example, if a user is located in
+            Owheo and wants to reach New Worlds Gardens, a function located in the emulator wiould be called to calculate
+            this distance. This function came from the Google Maps API and receives input in the form of longtitude and
+            latitude. </p>
+
+        <h2>Other Emulator functions</h2>
+        <p>The emulator can load apps selected by the user using buttons. </p>
+
+
+
+        <h2>Requirements </h2>
+        <p>The emulator requires a server if one wanted the geolocation services to run on Google Chrome. The privacy
+            content settings of Google Chrome would need to be changed to allow all sites to track your physical
+            location. </p>
+        <p>During the development of the app, we used MAMP to produce a local server to test our app on Google Chrome.
+            Also, the Travel App is not fully functional in Internet Explorer. In the future we would like to make our
+            Travel App consistent across every browser. </p>
+
+        <h2>About the Travel App</h2>
+        <p>We could not get the geolocation service to run properly in every browser. Therefore, the Travel App was hard
+            coded the current location to be in Owheo Building. In the next phase of development, we plan to properly
+            research and implement the geolocation service to run in every browser so we do not hard-code the locations.</p>
+
+        <p> Each radar search would result in the places close to the university in the range of 1 km, 5km and 20km. The
+            user would be able to filter the results returned by the app through choosing from a set category of places
+            to choose from. For example, at the moment the user can choose between accomodation, public facilities and
+            entertainment to choose from. </p>
+
+        <p>At the moment, our prototype can only display a list of locations to the user after the user has chosen their
+            filter. We plan to provide more information about locations such as place description, opening hours, time
+            taken to get there and an image of the place once the user has clicked on the location. </p>
+
+
+    </div>
+
+    <div id="experience_in_developing">
+
+        <h1>Experience in developing the Travel App</h1>
+
+        <p>The scale of this project was too small to implement MongoDB to store locations. Also, we would need a server
+            to access and change the MongoDB. However due to our current understanding of the assignment requirements,
+            we were limited to using Javascript. Once we realized that we could not use MongoDB, we tried using an XML
+            file as a database. However it requires a server-side script to save changes to an XML file. We then settled
+            on using a simple Javascript file to store location names, geolocation information and location addresses.
+            We used Google maps API to initialize our database. In theory, our database will be separate from Google
+            Maps database. The advantages of doing so, would mean that if we ever commercialize our app, we could insert
+            unique or private locations which businesses have paid for. This would also differentiate our Travel app
+            from competitors if we had locations in our database that was not present in others. </p>
+        <p>The final step of our Travel App would allow users to pick a location. Then, the travel app would provide a
+            detailed description and images of the chosen location. Due to time constraints, we could not implement this
+            final step. </p>
+        <p>The emulator Javascript file also has a lot of unused google maps API functions. In the process of developing
+            the Travel App, we realized that Chrome and Safari could not support geolocation services. Also, some of the
+            google maps API functions were included because we thought that it would provide some use for us. However,
+            as more research and testing went on, we ended up using only the radar search and a function called
+            computeDistanceBetween using the geometry library. </p>
+        <p>We tried to impelmenting the swipe and drag functionality. For example:</p>
+        <p>The user can click and drag to the right anywhere in the emulator for the google map to appear. This action
+            represents a swipe right action as if it were a real smartwatch with swipe functionality. The user can exit
+            google maps by clicking quit maps. </p>
+
+        <p>The user can also click and drag left for a clock to appear. This action represents a swipe left action. The
+            user can exit out of the clock by dragging down and come back to the home page. </p>
+        <p>Due to time constraint, we decided to remove these functionality, however we might continue to work on that in
+            our next developing phase.</p>
+        <p>We underestimated the time taken to design the app and emulator, and how they would interact with each other.
+            Therefore we ran out of time to implement more function in the emulator and app. In next assignment, we will
+            allocate more time to design the app and emulator. Having a good design would improve communication within
+            the group. </p>
+    </div>
+
+    <div id="changes_to_travel_app">
+
+        <h1>Changes to the Travel App</h1>
+
+        <p>Our Travel App is limited to searches in Dunedin only. In the future, we would like to expand our app to look
+            in other cities like Auckland, Wellington and Christchurch. We would like to store these results in our
+            database. We wold also like to develop a drop-menu for different locations. We would also like to develop a
+            travel itinerary. Users can save travel locations and access the information saved. In addition, we would
+            like to develop events which push messages to the user. For example, it can inform users on an upcoming
+            event. The pop-up message will ask the user if she/he would like to attend the event. If the user says yes,
+            then the location would be saved to the travel itinerary.</p>
+
+    </div>
+
+    <div id="unit_tests">
+
+        <h1>Unit Tests </h1>
+
+        <p>We have extensively used console logs and alert messages as unit test cases. For example, we used alert pop
+            up boxes to appear when we have clicked on the buttons. We have used console messages to test DOM
+            traversals. We also used <a href="testcase/test.html">QUnit testing </a>to test if our distance calculations
+            have worked. </p>
+        <p>To test Google Maps, we used the debugger tool from Firefox. If there were no errors in the debugger, nothing
+            appears. If errors occur, Firefox debugger tool informs us that the Google API wasn’t loaded properly. We
+            also used the Google Chrome’s developer tools which gave us error messages. When we started researching into
+            the error messages, we found out we couldn’t use Google Chrome and we needed a server to make Google Maps
+            work. </p>
+        <p>We also tested the entire emulator and app on different browsers to see if everything appeared to be
+            consistent across all browsers. However, we found out that the app and emulator doesn’t work on Internet
+            Explorer 11 and below. The version of Internet Explorer that we used to test our application does not
+            support localStorage unless you have installed a patch fix which we haven’t done. At the moment it is only
+            consistent on Chrome, Safari and Firefox. We aim to make it consistent across all browsers in the next
+            assignment if it is possible. </p>
+
+    </div>
+
+    <div id="revised_estimates">
+
+        <h1> Revised Estimates </h1>
+
+        <p> It is important to have weekly meetings with the whole group because the emulator and the app overlap so we
+            need everyone to be at meetings. </p>
+
+        <ul>
+            <li> 4 hour group meetings</li>
+            <li> 3.00pm - 7.00pm</li>
+            <li> Saturdays, weekly</li>
+        </ul>
+        <p><b> JULY </b></p>
+
+        <ul>
+            <li> 6th - The whole team will finish the final step of travel app. When the user click on the location, it
+                should give you a page of detailed description of the location including the image.
+            </li>
+            <li> 16th - Revise implementation of the Travel App and Emulator. Add new locations like Wellington,
+                Auckland and Christchurch. Start building the database - Junyu and Frank
+            </li>
+            <li> 23rd - Research on how to implement push event. Start working on the 'alert' notification for our app.
+                We will be working on the App and Emulator so everyone will be involved.
+            </li>
+
+        </ul>
+
+        <p><b> AUGUST </b></p>
+
+        <ul>
+            <li> 6th - Debug, fine-tune the application and emulator. Aim to nearly finish documentation.</li>
+            <li> 13th - Finish documentation, review and proofread it. Alycia and Ana will do this.</li>
+            <li> 20th - Assignment 3: Finished System and Report due.</li>
+        </ul>
+
+    </div>
+
+</section>
+</body>
+</html>

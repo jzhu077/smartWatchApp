@@ -12,7 +12,7 @@ var ac = [
     "Bella Vista Motel Dunedin;-45.8597867 170.51321289999998;704 Great King St, North Dunedin, Dunedin 9016, New Zealand",
     "Alexis Motor Lodge & Motels, Dunedin;-45.8665686 170.50772129999996;475 George St, North Dunedin, Dunedin 9016, New Zealand",
     "Quest Dunedin;-45.8728121 170.50732979999998;333 Cumberland St, Dunedin, Dunedin 9016, New Zealand"
-]
+];
 var pu = [
     "Entertainment Publications Dunedin;-45.8728121 170.50732979999998;21 Dunbar St, Dunedin 9016, New Zealand",
     "Video Tech;-45.8728121 170.50732979999998;686 Great King St, North Dunedin, Dunedin 9016, New Zealand",
@@ -22,7 +22,7 @@ var pu = [
     "Forsyth Barr Stadium;-45.8728121 170.50732979999998;130 Anzac Ave, Dunedin 9058, New Zealand",
     "Otago Museum;-45.8728121 170.50732979999998;419 Great King St, North Dunedin, Dunedin 9016, New Zealand",
     "Dunedin i-SITE Visitor Information Centre;-45.87368779999999 170.5037433;50 The Octagon, Dunedin, Dunedin 9016, New Zealand"
-]
+];
 
 var en = [
     "Iss Facility Services Dunedin;-45.8697503 170.51408200000003;Ward St, Dunedin 9016, New Zealand",
@@ -30,4 +30,4 @@ var en = [
     "Alibi Bar and Restaurant;-45.8728121 170.50732979999998;1 Princes St, Dunedin, Dunedin 9016, New Zealand",
     "Megazone Entertainment Center;-45.8728121 170.50732979999998;170 Frederick Street, Dunedin 9016, New Zealand",
     "Starters Bar;-45.8697503 170.51408200000003;157 Frederick St, Dunedin 9016, New Zealand"
-]
+];
