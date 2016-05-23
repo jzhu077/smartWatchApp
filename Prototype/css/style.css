@@ -127,6 +127,7 @@ canvas.m3{
 }
 .firstMenu, .radius{
     padding: inherit;
+    margin: 0px;
 }
 .firstMenu li, .radius li{
     list-style: none;
@@ -135,4 +136,29 @@ canvas.m3{
     padding-bottom: 24px;
     padding-bottom: 24px;
 
+}
+.display li{
+    position:absolute;
+    top: 80px;
+    left: 0px;
+    width: 100%;
+    list-style: none;
+    text-align: center;
+    padding-left: 0px;
+    padding-bottom: 24px;
+    padding-bottom: 24px;
+}
+#travel {
+    position: absolute;
+    top: 70px;
+    left: 38px;
+}
+
+button {
+    border-radius: 20px;
+    background: lightskyblue;
+}
+
+button:hover{
+    background: dodgerblue;
 }

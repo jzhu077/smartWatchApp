@@ -4,11 +4,22 @@ var emulator = (function(){
 
   var Layer=0;
 
-  var Swipe_Right = 0, Swipe_Left = 0, Swipe_Up = 0, Swipe_Down = 0;//mouse swipe event
+  //mouse swipe event
+  var Swipe_Right = 0;
+  var Swipe_Left = 0;
+  var Swipe_Up = 0;
+  var Swipe_Down = 0;
 
-  var  ctx_c, radius_c = 0;// analog clock
+  // analog clock
+  var  ctx_c;
+  var radius_c = 0;
 
-  var can, ctx, canX, canY, mouseIsDown = 0;//mouse event
+  //mouse event
+  var can;
+  var ctx;
+  var canX;
+  var canY;
+  var mouseIsDown = 0;
 
   var lastMouseDown = {x: null, y: null};// mouse position when click
 
@@ -16,26 +27,26 @@ var emulator = (function(){
   var infoWindow;
   var service;
 
-  var radarservice_result={};
+ // var radarservice_result={};
 
   var pub = {};
 
   var showPos=function () {
-    if (mouseIsDown)
-      console.log("Mouse is down")
-    if (!mouseIsDown)
-      console.log("Mouse is up");
+    if (mouseIsDown){console.log("Mouse is down");}
+
+    if (!mouseIsDown){console.log("Mouse is up");}
+
     if (Swipe_Right) {
-      Layer++;
+      Layer+=1;
       console.log("Swipe Right");
-      if(Layer>=1)
-        showelement("googleMap")
-      if(Layer==2)
-        gps_location();
-      if(Layer==2){
-        //text_search('restaurant','1000');
-        radar_search_info('restaurant','1000');
+      if(Layer>=1){
+        showelement("googleMap");
       }
+
+      if(Layer===2){
+        gps_location();
+        //text_search('restaurant','1000');
+        radar_search_info('restaurant','1000');}
     }
     if (Swipe_Left){
       showelement("canvas_clock");
@@ -48,7 +59,7 @@ var emulator = (function(){
     if (Swipe_Down){
       hideelement("canvas_clock");
       console.log("Swipe Down");}
-  }
+  };
 
 
 
@@ -98,28 +109,35 @@ var emulator = (function(){
       canX = event.clientX - lastMouseDown.x;
       canY = event.clientY - lastMouseDown.y;}
 
-    if (canX > 40)
+    if (canX > 40) {
       Swipe_Right = 1;
-    else
+    } else {
       Swipe_Right = 0;
-    if (canX < -40)
+    }
+
+    if (canX < -40) {
       Swipe_Left = 1;
-    else
+    } else {
       Swipe_Left = 0;
-    if (canY < -40)
+    }
+    if (canY < -40) {
       Swipe_Up = 1;
-    else
+    } else {
       Swipe_Up = 0;
-    if (canY > 40)
+    }
+    if (canY > 40) {
       Swipe_Down = 1;
-    else
+    } else {
       Swipe_Down = 0;
+    }
   }
 
   function showelement(elementid){
+
     setelementZindex(elementid,10);
   }
   function hideelement(elementid){
+
     setelementZindex(elementid,-10);
   }
 
@@ -243,7 +261,7 @@ var emulator = (function(){
 //
   function gps_location(){
 
-    var infoWindow = new google.maps.InfoWindow({
+    infoWindow = new google.maps.InfoWindow({
       map: map
     });
     if (navigator.geolocation) {
@@ -278,7 +296,7 @@ var emulator = (function(){
         var pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
-        }
+        };
         var current_location = new google.maps.LatLng(pos.lat, pos.lng);
 
         map = new google.maps.Map(getelement("googleMap"), {
@@ -305,6 +323,7 @@ var emulator = (function(){
       });
     }
   }
+  /* Its not valid at the moment
   function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       var result;
@@ -314,6 +333,7 @@ var emulator = (function(){
       }
     }
   }
+  */
 
   function findfood(){
     text_search();
@@ -330,7 +350,7 @@ var emulator = (function(){
         var pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
-        }
+        };
         var current_location = new google.maps.LatLng(pos.lat, pos.lng);
 
         map = new google.maps.Map(getelement("googleMap"), {
@@ -408,8 +428,8 @@ var emulator = (function(){
 
 
     }
-  }
-
+  };
+  /* to be fixed and continued
   function callback_text(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       var result;
@@ -442,6 +462,7 @@ var emulator = (function(){
       
     }
   }
+  */
   pub.calculate_distance = function (src,dst){
     service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
@@ -453,18 +474,26 @@ var emulator = (function(){
           avoidHighways: false,
           avoidTolls: false
         }, function (response, status) {
+          var i;
+          var j;
+          var results;
+          var element;
+          var distance;
+          var duration;
+          var from;
+          var to;
           if (status == google.maps.DistanceMatrixStatus.OK) {
             var origins = response.originAddresses;
             var destinations = response.destinationAddresses;
 
-            for (var i = 0; i < origins.length; i++) {
-              var results = response.rows[i].elements;
-              for (var j = 0; j < results.length; j++) {
-                var element = results[j];
-                var distance = element.distance.text;
-                var duration = element.duration.text;
-                var from = origins[i];
-                var to = destinations[j];
+            for (i = 0; i < origins.length; i+=1) {
+              results = response.rows[i].elements;
+              for ( j = 0; j < results.length; j+=1) {
+                 element = results[j];
+                 distance = element.distance.text;
+                 duration = element.duration.text;
+                 from = origins[i];
+                 to = destinations[j];
                 //localStorage.setItem("distanceAB", distance);
                 //console.log(localStorage.getItem("distanceAB"));
                 //travel.storeDisplay(distance);
@@ -476,6 +505,10 @@ var emulator = (function(){
           }
 
         });
+  };
+  //fast response distance calculater
+  pub.calcDistance = function(p1, p2) {
+    return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
   };
   
   /***************************************************************/
@@ -504,7 +537,7 @@ var emulator = (function(){
 //suppose height=width, draw a rounded edged rectangle
 //x,y is the center of graph
   function draw_inner_frame(ctx, x, y, width, height) {
-    ctx.beginPath()
+    ctx.beginPath();
     ctx.shadowBlur = 0;
     // ctx.rect(x - width / 2, y - height / 2, width, height);
     ctx.clearRect(x - width / 2, y - height / 2, width, height);
@@ -548,8 +581,8 @@ var emulator = (function(){
     setmouseup_listener(can_clock);
 
     var run=window.setInterval(drawClock,1000);
-    if(mouseIsDown)
-      window.clearInterval(run);
+    if(mouseIsDown) {window.clearInterval(run);}
+
 
 
   }
@@ -586,7 +619,7 @@ var emulator = (function(){
     ctx.font = radius*0.15 + "px arial";
     ctx.textBaseline="middle";
     ctx.textAlign="center";
-    for(num = 1; num < 13; num++){
+    for(num = 1; num < 13; num+=1){
       ang = num * Math.PI / 6;
       ctx.rotate(ang);
       ctx.translate(0, -radius*0.85);
@@ -659,6 +692,7 @@ var emulator = (function(){
       btn.onclick=function(){};
     }
   }
+ */
 /*
   function show_Radiusi(menu){
     var appbox=getelement("AppBox");
@@ -673,6 +707,7 @@ var emulator = (function(){
       btn.onclick=function(){showRadius()};
     }
   }
+ */
 
   /******local storage save item*****/
 
@@ -688,7 +723,132 @@ var emulator = (function(){
 
 
 
+  /******HTML setup and modification*****/
+  //get user input for the radius and save the value to local
+  pub.getRadClick = function (rad) {
+    //console.log(rad);
+    $("#back").click(function(){
+      localStorage.setItem("Menu1", "");
+      $('.app').children().remove();
+      travel.start();
+    });
+    $("#" + rad.r1).click(function () {
+      localStorage.setItem("Radius1", 1000);
+      //alert("good" + rad.r1);
+      disPage(travel.secondOptions(),0);
+    });
+    $("#" + rad.r2).click(function () {
+      localStorage.setItem("Radius1", 5000);
+      //alert("good" + rad.r2);
+      disPage(travel.secondOptions(),0);
+    });
+    $("#" + rad.r3).click(function () {
+      localStorage.setItem("Radius1", 20000);
+      //alert("good" + rad.r3);
+      disPage(travel.secondOptions(),0);
+    });
+  };
 
+// detects a menu click then save it to local storage. After that,
+// let the travel app know what by call a function in travel app.
+  pub.getMenuClick = function (menu) {
+    //console.log(menu);
+    $("#home").click(function (){
+      emulator.showAppIcon();
+    });
+    $("#" + menu.b1).click(function () {
+      localStorage.setItem("Menu1", menu.b1);
+      //alert("good" + menu.b1);
+      travel.mainOptions();
+    });
+    $("#" + menu.b2).click(function () {
+      localStorage.setItem("Menu1", menu.b2);
+      //alert("good" + menu.b2);
+      travel.mainOptions();
+    });
+    $("#" + menu.b3).click(function () {
+      localStorage.setItem("Menu1", menu.b3);
+      //alert("good" + menu.b3);
+      travel.mainOptions();
+    });
+  };
+
+  // detects a menu click then decide which one to display to user.
+  pub.getListClick = function(display){
+    $("#back").click(function(){
+      $('.app').children().remove();
+      travel.mainOptions();
+    });
+    $("#next").click(function(){
+      var num = parseInt($('.display').find('button').attr('id'))+ 1;
+      num %= display.length;
+      disPage(display,num);
+    });
+
+    $("#prev").click(function(){
+      var num = parseInt($('.display').find('button').attr('id'))- 1;
+      if (num<0){
+        num = 0;
+      }
+      disPage(display,num);
+    });
+  };
+  
+  //Appending tags to show starting menu to initialise the user interface.
+  pub.showStart = function (menu) {
+    $('.app').children().remove();
+    $(".app").append("<li><button type='button' id = 'home'>Home</button></li><ul class='firstMenu'>");
+    $(".firstMenu").append(
+        "<li><button type='button' id ='" + menu.b1 + "'>" + menu.b1 + "</button></li>" +
+        "<li><button type='button' id ='" + menu.b2 + "'>" + menu.b2 + "</button></li>" +
+        "<li><button type='button' id ='" + menu.b3 + "'>" + menu.b3 + "</button></li></ul>");
+
+    emulator.getMenuClick(menu);
+  };
+
+
+  //Appending tags to show radius selection menu 
+  pub.showRadius = function (radius) {
+    $('.app').children().remove();
+    $(".app").append("<ul class='radius'>");
+    $(".radius").append(
+        "<button type = 'button' id='back'>Back</button>"+
+        "<li><button type='button' id ='" + radius.r1 + "'>" + radius.r1 + "</button></li>" +
+        "<li><button type='button' id ='" + radius.r2 + "'>" + radius.r2 + "</button></li>" +
+        "<li><button type='button' id ='" + radius.r3 + "'>" + radius.r3 + "</button></li></ul>");
+
+    emulator.getRadClick(radius);
+  };
+
+  //Display one element at a time in display array that is passed from travel app 
+  function disPage(display,num){
+    $('.app').children().remove();
+    //console.log(display);
+    $(".app").append("<button type = 'button' id='back'>Back</button>" +
+        "<button type = 'button' id='next'>--></button>" +
+        "<button type = 'button' id='prev'><--</button>" +
+        "<ul class='display'>");
+    $(".display").append(function (){
+      var str = "";
+      var i;
+      for( i = 0; i< display.length; i+=1){
+        if(i===num) {
+          str += "<li><button type='button' id ='" + i + "'>" + display[i].split(";")[0] + "</button></li>";
+        }
+      }
+      return(str+"</ul>");
+    });
+    emulator.getListClick(display);
+  }
+
+  //show the app Icon to start everthing.
+  pub.showAppIcon = function (){
+    $(".app").children().remove();
+    $(".app").append("<button type = 'button' id='travel'>Travel App</button>");
+    $("#travel").click(function(){
+      travel.start();
+    });
+  };
 
   /**
    * On setup, the script will automatically create a text input within a span
@@ -726,7 +886,7 @@ var emulator = (function(){
     var map_element=getelement("googleMap");
     init_googlemap( map_element,mapProp);
     //first screen
-    var image='images/travel.jpg'
+    var image='images/travel.jpg';
     drawImage(ctx,120,120,image);
 
     //clock app
@@ -734,6 +894,8 @@ var emulator = (function(){
 
     runclock(can_clock);
     hideelement("canvas_clock");
+
+    
 
   };
   return pub;
