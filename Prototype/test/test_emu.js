@@ -166,22 +166,6 @@ if (Swipe_Down){
         var element=getelement(elementid);
         element.style.zIndex=Z;
     }
-    function setelementleft(elementid,left) {
-        var element=getelement(elementid);
-        element.style.left=left;
-    }
-    function setelementtop(elementid,top) {
-        var element=getelement(elementid);
-        element.style.top=top;
-    }
-    function setelementwidth(elementid,width) {
-        var element=getelement(elementid);
-        element.style.width=width;
-    }
-    function setelementheight(elementid,height) {
-        var element=getelement(elementid);
-        element.style.height=height;
-    }
     function setelementposition(elementid,absorrel) {
         var element=getelement(elementid);
         element.style.position=absorrel;
@@ -343,7 +327,6 @@ if (Swipe_Down){
                     zoomControl: true,
                     streetViewControl: true,
                     overviewMapControl: true
-                    //mapTypeId: google.maps.MapTypeId.ROADMAP
                 });
                 infoWindow = new google.maps.InfoWindow();
 
@@ -432,13 +415,10 @@ if (Swipe_Down){
                     console.log(result.opening_hours.open_now);
 
                     var dst={lat:result.geometry.location.lat(),lng:result.geometry.location.lng()};
-                    console.log(dst);
                     getGPSlocation();
                     var local_lat=local_get("lat");
                     var local_lng=local_get("lng");
-                    console.log(local_lat);
                     var src={lat:parseFloat(local_lat),lng:parseFloat(local_lng)};
-                    console.log(src);
                     calculate_distance(src,dst);
                     database.saveDB(result.name);
                 });
@@ -469,12 +449,7 @@ if (Swipe_Down){
                             var duration = element.duration.text;
                             var from = origins[i];
                             var to = destinations[j];
-                            //localStorage.setItem("distanceAB", distance);
-                            //console.log(localStorage.getItem("distanceAB"));
-                            //travel.storeDisplay(distance);
-
-                            //console.log(duration);
-
+       
                         }
                     }
                 }
@@ -690,16 +665,13 @@ if (Swipe_Down){
             zoomControl: true,
             streetViewControl: true,
             overviewMapControl: true
-            //mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map_element=getelement("googleMap");
         init_googlemap( map_element,mapProp);
         //first screen
         var image='../images/travel.jpg'
         drawImage(ctx,240,240,image);
-        //setelementleft("apple",300);
-        //setelementtop("apple",300);
-
+       
         //clock app
         var can_clock = getelement("canvas_clock");
 
