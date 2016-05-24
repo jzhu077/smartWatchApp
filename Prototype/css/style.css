@@ -122,7 +122,7 @@ canvas.m3{
     z-index: 1;
     left: 129px;
     width: 160px;
-    height: 160px;
+    height: 0px;
 
 }
 .firstMenu, .radius{
