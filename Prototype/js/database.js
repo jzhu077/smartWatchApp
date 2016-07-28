@@ -1,33 +1,118 @@
-/**
- * Created by Junyu and Ana on 5/21/2016.
- * This is our prototype database for Accommodation(ac), Public facilities(pu) and Entertainment(en)
- */
-
 var ac = [
-    "Dunedin & Academy Court Motel;-45.8637714 170.50957589999996;624 George St, Otago 9016, New Zealand",
-    "Alhambra Oaks Motor Lodge;-45.8622211 170.511841;588 Great King St, North Dunedin, Dunedin 9016, New Zealand",
-    "Woodlands Motels and Apartments;-45.8621471 170.5120061;594 Great King St, North Dunedin, Dunedin 9016, New Zealand",
-    "Commodore Motel;-45.8581207 170.51572880000003;932 Cumberland St, Dunedin 9016, New Zealand",
-    "858 George Street Motel;-45.85955449999999 170.51223089999996;858 George St, North Dunedin, Dunedin 9016, New Zealand",
-    "Bella Vista Motel Dunedin;-45.8597867 170.51321289999998;704 Great King St, North Dunedin, Dunedin 9016, New Zealand",
-    "Alexis Motor Lodge & Motels, Dunedin;-45.8665686 170.50772129999996;475 George St, North Dunedin, Dunedin 9016, New Zealand",
-    "Quest Dunedin;-45.8728121 170.50732979999998;333 Cumberland St, Dunedin, Dunedin 9016, New Zealand"
+    {
+    name: "Dunedin & Academy Court Motel",
+    location: {lat: -45.8637714, long: 170.50957589999996}
+    address: ["624 George St","Dunedin","Dunedin 9016","New Zealand"]
+    },
+     {
+    name: "Alhambra Oaks Motor Lodge",
+    location: {lat:-45.8622211, long:170.511841}
+    address: ["588 Great King St","North Dunedin","Dunedin 9016","New Zealand"]
+    },
+     {
+    name: "Woodlands Motels and Apartments",
+    location: {lat:-45.8621471, long:170.5120061}
+    address: ["594 Great King St","North Dunedin","Dunedin 9016","New Zealand"]
+    },
+     {
+    name: "Commodore Motel",
+    location: {lat: -45.8581207, long:170.51572880000003}
+    address: ["932 Cumberland St","North Dunedin","Dunedin 9016","New Zealand"]
+    },
+     {
+    name: "858 George Street Motel",
+    location: {lat:-45.85955449999999, long: 170.51223089999996}
+    address: ["858 George St","North Dunedin","Dunedin 9016","New Zealand"]
+    },
+     {
+    name: "Bella Vista Motel Dunedin",
+    location: {lat:-45.8597867 , long:170.51321289999998}
+    address: ["858 George St","North Dunedin","Dunedin 9016","New Zealand"]
+    },
+     {
+    name: "Alexis Motor Lodge & Motels Dunedin",
+    location: {lat:-45.8665686, long:170.50772129999996}
+    address: ["475 George St","North Dunedin","Dunedin 9016","New Zealand"]
+    },
+     {
+    name: "Quest Dunedin",
+    location: {lat:-45.8728121, long:170.50732979999998}
+    address: ["333 Cumberland St","North Dunedin","Dunedin 9016","New Zealand"]
+    }   
+   
 ];
 var pu = [
-    "Entertainment Publications Dunedin;-45.8728121 170.50732979999998;21 Dunbar St, Dunedin 9016, New Zealand",
-    "Video Tech;-45.8728121 170.50732979999998;686 Great King St, North Dunedin, Dunedin 9016, New Zealand",
-    "Dunedin City Library;-45.8726941 170.5035676;230 Moray Pl, Dunedin, Dunedin 9016, New Zealand",
-    "Physio Pool Dunedin;-45.8705768 170.51019610000003;140 Hanover St, Dunedin, Dunedin 9016, New Zealand",
-    "Dunedin Public Art Gallery;-45.8744863 170.50273889999994;30 The Octagon, Dunedin, Dunedin 9016, New Zealand",
-    "Forsyth Barr Stadium;-45.8728121 170.50732979999998;130 Anzac Ave, Dunedin 9058, New Zealand",
-    "Otago Museum;-45.8728121 170.50732979999998;419 Great King St, North Dunedin, Dunedin 9016, New Zealand",
-    "Dunedin i-SITE Visitor Information Centre;-45.87368779999999 170.5037433;50 The Octagon, Dunedin, Dunedin 9016, New Zealand"
+{
+    name:"Entertainment Publications Dunedin",
+    location: {lat:-45.8728121, long:170.50732979999998}
+    address:["21 Dunbar St","Dunedin 9016", "New Zealand"]
+},
+{
+    name:"Video Tech",
+    location: {lat:-45.8728121, long:170.50732979999998}
+    address:["686 Great King St","Dunedin 9016", "New Zealand"]
+},
+{
+    name:"Dunedin City Library",
+    location: {lat:-45.8726941, long:170.5035676}
+    address:["230 Moray Pl","Dunedin 9016", "New Zealand"]
+},   
+{
+    name:"Physio Pool Dunedin",
+    location: {lat:-45.8705768, long:170.51019610000003}
+    address:["140 Hanover St","Dunedin 9016", "New Zealand"]
+},
+{
+    name:"Dunedin Public Art Gallery",
+    location: {lat:-45.8744863, long:170.50273889999994}
+    address:["30 The Octagon","Dunedin 9016", "New Zealand"]
+},
+  {
+    name:"Forsyth Barr Stadium",
+    location: {lat:-45.8728121, long:170.50732979999998}
+    address:["130 Anzac Ave","Dunedin 9016", "New Zealand"]
+},
+  {
+    name:"Otago Museum",
+    location: {lat:-45.8728121, long:170.50732979999998}
+    address:["419 Great King St","Dunedin 9016", "New Zealand"]
+},
+  {
+    name:"Dunedin i-SITE Visitor Information Centre",
+    location: {lat:-45.87368779999999, long:170.5037433}
+    address:["50 The Octagon","Dunedin 9016", "New Zealand"]
+}
 ];
 
 var en = [
-    "Iss Facility Services Dunedin;-45.8697503 170.51408200000003;Ward St, Dunedin 9016, New Zealand",
-    "Full Spectrum Training Facility;-45.8697503 170.51408200000003;541 Great King St, Dunedin 9016, New Zealand",
-    "Alibi Bar and Restaurant;-45.8728121 170.50732979999998;1 Princes St, Dunedin, Dunedin 9016, New Zealand",
-    "Megazone Entertainment Center;-45.8728121 170.50732979999998;170 Frederick Street, Dunedin 9016, New Zealand",
-    "Starters Bar;-45.8697503 170.51408200000003;157 Frederick St, Dunedin 9016, New Zealand"
+{
+    name:"Iss Facility Services Dunedin",
+    location: {lat:-45.8697503, long:170.51408200000003}
+    address:["Ward St","Dunedin 9016", "New Zealand"]
+},
+{
+    name:"Full Spectrum Training Facility",
+    location: {lat:-45.8697503, long:170.51408200000003}
+    address:["541 Great King St","Dunedin 9016", "New Zealand"]
+},
+{
+    name:"Alibi Bar and Restaurant",
+    location: {lat:-45.8728121, long:170.50732979999998}
+    address:["1 Princes St","Dunedin 9016", "New Zealand"]
+},
+{
+    name:"Megazone Entertainment Center",
+    location: {lat:-45.8728121, long:170.50732979999998}
+    address:["1 Princes St","Dunedin 9016", "New Zealand"]
+},
+{
+    name:"Alibi Bar and Restaurant",
+    location: {lat:-45.8728121, long:170.50732979999998}
+    address:["170 Frederick Street","Dunedin 9016", "New Zealand"]
+},   
+{
+    name:"Starters Bar",
+    location: {lat:-45.8697503, long:170.51408200000003}
+    address:["157 Frederick St","Dunedin 9016", "New Zealand"]
+}
 ];
