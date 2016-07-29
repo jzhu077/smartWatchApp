@@ -1,12 +1,12 @@
 QUnit.test("set elementZindex", function( assert ) {
-		assert.equal( setelementZindex("element1",9),true);
+		assert.ok( setelementZindex("googleMap",9));
 	});
 
 QUnit.test("set elementZindex", function(assert){
-		assert.equal( setelementZindex("element2",8),true);
+		assert.ok( setelementZindex("googleMap",8));
 	});
 
 QUnit.test("set elementZindex", function(assert){
-		assert.equal( setelementZindex("element3",7),true);
+		assert.ok( setelementZindex("googleMap",7));
 	});
 
