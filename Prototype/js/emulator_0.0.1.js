@@ -801,7 +801,7 @@ var emulator = (function(){
     });
   };
   
-  //Appending tags to show starting menu to initialise the user interface.
+   //Appending tags to show starting menu to initialise the user interface.
   pub.showStart = function (menu) {
     
     $('.app').children().remove();
@@ -814,6 +814,11 @@ var emulator = (function(){
             "<li><button type='button' id ='" + menu.b2 + "'>" + menu.b2 + "</button></li>" +
             "<li><button type='button' id ='" + menu.b3 + "'>" + menu.b3 + "</button></li></ul>");
             }
+      else if(menu.layout=="layout2"){
+        $(".firstmenu").append(
+        "<img src="+menu.img+"'style='position:absolute;width:160px;height:160px;top: 129px;left: 129px;z-index: -8;></ul>");      
+        } 
+      
     showelement(menu.b1);
     
       
@@ -833,29 +838,13 @@ var emulator = (function(){
         "<li><button type='button' id ='" + radius.r2 + "'>" + radius.r2 + "</button></li>" +
         "<li><button type='button' id ='" + radius.r3 + "'>" + radius.r3 + "</button></li></ul>");
      }
+    else if(radius.layout=="layout2"){
+        $(".radius").append(
+        "<img src="+radius.img+"'style='position:absolute;width:160px;height:160px;top: 129px;left: 129px;z-index: -8;></ul>");      
+    }  
     emulator.getRadClick(radius);
   };
 
-  //Display one element at a time in display array that is passed from travel app 
-  function disPage(display,num){
-    $('.app').children().remove();
-    //console.log(display);
-    $(".app").append("<button type = 'button' id='back'>Back</button>" +
-        "<button type = 'button' id='next'>--></button>" +
-        "<button type = 'button' id='prev'><--</button>" +
-        "<ul class='display'>");
-    $(".display").append(function (){
-      var str = "";
-      var i;
-      for( i = 0; i< display.length; i+=1){
-        if(i===num) {
-          str += "<li><button type='button' id ='" + i + "'>" + display[i].split(";")[0] + "</button></li>";
-        }
-      }
-      return(str+"</ul>");
-    });
-    emulator.getListClick(display);
-  }
 
   //show the app Icon to start everthing.
   pub.showAppIcon = function (component,id,appname){
