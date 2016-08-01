@@ -733,6 +733,8 @@ var emulator = (function(){
       $('.app').children().remove();
       travel.start();
     });
+      
+      
     $("#" + rad.r1).click(function () {
       localStorage.setItem("Radius1", 1000);
       //alert("good" + rad.r1);
@@ -754,8 +756,12 @@ var emulator = (function(){
 // let the travel app know what by call a function in travel app.
   pub.getMenuClick = function (menu) {
     //console.log(menu);
+    var com=localStorage.getItem("Home component");
+    var id= localStorage.getItem("app id");
+    var appname=localStorage.getItem("app name");  
+      
     $("#home").click(function (){
-      emulator.showAppIcon();
+      emulator.showAppIcon(com,id,appname);
     });
     $("#" + menu.b1).click(function () {
       localStorage.setItem("Menu1", menu.b1);
@@ -797,14 +803,20 @@ var emulator = (function(){
   
   //Appending tags to show starting menu to initialise the user interface.
   pub.showStart = function (menu) {
+    
     $('.app').children().remove();
-    $(".app").append("<li><button type='button' id = 'home'>Home</button></li><ul class='firstMenu'>");
-    $(".firstMenu").append(
-        "<li><button type='button' id ='" + menu.b1 + "'>" + menu.b1 + "</button></li>" +
-        "<li><button type='button' id ='" + menu.b2 + "'>" + menu.b2 + "</button></li>" +
-        "<li><button type='button' id ='" + menu.b3 + "'>" + menu.b3 + "</button></li></ul>");
+    
+      if(menu.layout=="layout1"){  
+        $(".app").append("<li><button type='button' id = "+menu.lefttopb+">"+menu.lefttopb+"</button></li><ul class='firstMenu'>");
+    
+        $(".firstMenu").append(
+            "<li><button type='button' id ='" + menu.b1 + "'>" + menu.b1 + "</button></li>" +
+            "<li><button type='button' id ='" + menu.b2 + "'>" + menu.b2 + "</button></li>" +
+            "<li><button type='button' id ='" + menu.b3 + "'>" + menu.b3 + "</button></li></ul>");
+            }
     showelement(menu.b1);
-
+    
+      
     emulator.getMenuClick(menu);
   };
 
@@ -813,12 +825,14 @@ var emulator = (function(){
   pub.showRadius = function (radius) {
     $('.app').children().remove();
     $(".app").append("<ul class='radius'>");
+    if(radius.layout=="layout1"){  
+   
     $(".radius").append(
-        "<button type = 'button' id='back'>Back</button>"+
+        "<button type = 'button' id="+radius.lefttopb+">"+radius.lefttopb+"</button>"+
         "<li><button type='button' id ='" + radius.r1 + "'>" + radius.r1 + "</button></li>" +
         "<li><button type='button' id ='" + radius.r2 + "'>" + radius.r2 + "</button></li>" +
         "<li><button type='button' id ='" + radius.r3 + "'>" + radius.r3 + "</button></li></ul>");
-
+     }
     emulator.getRadClick(radius);
   };
 
@@ -844,10 +858,11 @@ var emulator = (function(){
   }
 
   //show the app Icon to start everthing.
-  pub.showAppIcon = function (){
+  pub.showAppIcon = function (component,id,appname){
     $(".app").children().remove();
-    $(".app").append("<button type = 'button' id='travel'>Travel App</button>");
-
+    if(component == "button"){  
+        $(".app").append("<button type = "+component+" id= "+id+" >" + appname +"</button>");
+    }
     $("#travel").click(function(){
       travel.start();
     });

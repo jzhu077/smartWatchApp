@@ -9,9 +9,13 @@ var travel = (function () {
     var pub = {};
     
     //To start the app with three main category selections.
+    //layout1 : the first button on left top, the following in horizontal center
+    //
     pub.start = function() {
         var menu = {
             menuNum: 3,
+            layout:"layout1", 
+            lefttopb:"home",
             b1: "Accommodation",
             b2: "Entertainment",
             b3: "Public"
@@ -25,9 +29,12 @@ var travel = (function () {
         
         var radius = {
             radiusNum: 3,
+            layout:"layout1",
+            lefttopb:"back",
             r1: "1km",
             r2: "5km",
             r3: "20km"
+            
         };
         emulator.showRadius(radius);
     };
@@ -46,10 +53,10 @@ var travel = (function () {
         switch(match){
             case "ac" :
                 for ( i = 0; i<ac.length; i+=1) {
-                    dst = new google.maps.LatLng(parseFloat(ac[i].split(";")[1].split(" ")[0]),parseFloat(ac[i].split(";")[1].split(" ")[1]));
+                    dst = new google.maps.LatLng(parseFloat(ac[i].location.lat),parseFloat(ac[i].location.long));
                     if(parseFloat(emulator.calcDistance(src,dst)) <= parseFloat(radius/1000)){
 
-                        display[count]= ac[i];
+                        display[count]= ac[i].name;
                         count +=1;
                     }
                 }
@@ -57,10 +64,10 @@ var travel = (function () {
             case "pu" :
                 for ( i = 0; i<pu.length; i+=1) {
 
-                    dst = new google.maps.LatLng(parseFloat(pu[i].split(";")[1].split(" ")[0]),parseFloat(pu[i].split(";")[1].split(" ")[1]));
+                    dst = new google.maps.LatLng(parseFloat(pu[i].location.lat),parseFloat(ac[i].location.long));
                     if(parseFloat(emulator.calcDistance(src,dst)) <= parseFloat(radius/1000)){
 
-                        display[count]= pu[i];
+                        display[count]= pu[i].name;
                         count +=1;
                     }
                     //console.log(dst);
@@ -71,9 +78,9 @@ var travel = (function () {
                 break;
             case "en" :
                 for ( i = 0; i<en.length; i+=1) {
-                    dst = new google.maps.LatLng(parseFloat(en[i].split(";")[1].split(" ")[0]),parseFloat(en[i].split(";")[1].split(" ")[1]));
+                    dst = new google.maps.LatLng(parseFloat(en[i].location.lat),parseFloat(en[i].location.long));
                     if(parseFloat(emulator.calcDistance(src,dst)) <= parseFloat(radius/1000)){
-                        display[count]= en[i];
+                        display[count]= en[i].name;
                         count +=1;
                     }
                 }
@@ -100,9 +107,14 @@ var travel = (function () {
     };
     */
     pub.setup = function () {
-        emulator.showAppIcon();
-
-
+        
+                
+        emulator.showAppIcon('button',"travel","Travel App");
+        
+        localStorage.setItem("Home component","button");
+        localStorage.setItem("app id","travel");
+        localStorage.setItem("app name","Travel App");
+        
     };
     return pub;
 }());
