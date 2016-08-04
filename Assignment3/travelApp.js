@@ -22,7 +22,7 @@ var app = (function () {
             message1: "Accommodation",
             message2: "Entertainment",
             message3: "Public",
-            color: "#FFFFFF",           
+            color: "#FFFFFF"
         };
         emulator.draw(menu.x + 7,menu.y+8, menu.width - 15, menu.height/4, menu.color); 
         emulator.draw(menu.x + 7,menu.y*1.7,menu.width - 15, menu.height/4, menu.color); 
@@ -30,15 +30,15 @@ var app = (function () {
               
         emulator.write(menu.x + 7,menu.y+40,menu.message1); 
         emulator.write(menu.x + 7,menu.y*2,menu.message2);
-        emulator.write(menu.x + 7,menu.y*2.6,menu.message3); 
-        //emulator.addmousedown(emulator.can);
+        emulator.write(menu.x + 7,menu.y*2.6,menu.message3);
+        emulator.addmouselistener(emulator.can,mousedown);
+
         //secondPage();
         pageNum=1;
-        hastouchcoordinates();
-    }
-    function somousedown(event){
+            }
+    function mousedown(event){
 
-        emulator.doMouseDown(event);
+        console.log("haha");
         
         hastouchcoordinates(); 
     }

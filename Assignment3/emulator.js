@@ -92,14 +92,10 @@ pub.height = function(){
 
   }
   
-    pub.doMouseDown=function doMouseDown(event){
-      touchcoordinates = {
-        x : event.pageX,
-        y : event.pageY
-      };   
-      console.log (touchcoordinates);
-      //app.hastouchcoordinates(touchcoordinates); 
-    };
+    pub.addmouselistener=function(canvas,funct){
+
+        canvas.addEventListener("mousedown", funct, false);
+    }
 
 
   pub.setup = function() {
@@ -108,13 +104,12 @@ pub.height = function(){
     width = 200;
     height = 200;
     edge = 10;
-    
-    can = document.getElementById("emulator") ;
-    ctx = can.getContext("2d");
-    can.addEventListener("mousedown", doMouseDown, false);
-    
+
+      can = document.getElementById("emulator") ;
+      ctx = can.getContext("2d");
 
     draw_watch_frame(ctx, 200, 200, width, height, edge);
+
 
     //draw_inner_frame(ctx, 200, 200, 160, 160);
     //create();    
