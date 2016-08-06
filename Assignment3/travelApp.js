@@ -91,7 +91,7 @@ var app = (function () {
     }
   }
 
-    function exit_menu(){
+  function exit_menu(){
             if(pageNum==1)
                 app.setup();
             else if(pageNum==2)

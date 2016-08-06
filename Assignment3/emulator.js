@@ -113,10 +113,10 @@ pub.height = function(){
     width = 200;
     height = 200;
     edge = 10;
-
+        
         can = document.getElementById("emulator") ;
         ctx = can.getContext("2d");
-
+        console.log(can);
         draw_watch_frame(ctx, 200, 200, width, height, edge);
 
         draw_inner_frame(ctx, 200, 200, 160, 160);
