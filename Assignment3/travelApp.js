@@ -53,12 +53,11 @@ var app = (function () {
         if(Swipe_Left){   
             exit_menu();
         }
-        
-        if(Swipe_Up || Swipe_Down)
+        else if(Swipe_Up || Swipe_Down)
             update_thirdPage(Swipe_Down,Swipe_Up);
-        
-        hastouchcoordinates(coordinates);            
-        
+        else{
+            hastouchcoordinates(coordinates);            
+            }
         Swipe_Left=0;
         Swipe_Up=0;
         Swipe_Down=0;
@@ -166,7 +165,7 @@ function hastouchcoordinates (touchcoordinates){
         }
         else if(pageNum==3){
             var i=parseInt(localStorage.getItem("result_index"));
-            console.log("hello world");
+            
             forthPage(display,i);    
         }    
     }
