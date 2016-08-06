@@ -1,4 +1,7 @@
 
+//test mouse event 
+//
+//
 
 function mousedown(event){
  return true;   
@@ -7,7 +10,7 @@ function mouseup(event){
  return true;
 }    
 function mouseXY(event){
-    return true;s
+    return true;
 }
 
 function eventFire(el, etype){

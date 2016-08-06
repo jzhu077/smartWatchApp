@@ -1,4 +1,7 @@
-//calculate distance
+//
+//test secondOption return value 
+//
+//
 var keyword="en";
 var display=[];
 var radius=20000;

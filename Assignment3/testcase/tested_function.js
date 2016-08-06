@@ -1,4 +1,6 @@
-
+// test case require network connection
+// otherwise, google's api doesnot work at all
+//
 
 function calcDistance(p1, p2) {
       

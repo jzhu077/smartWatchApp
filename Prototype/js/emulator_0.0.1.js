@@ -305,7 +305,6 @@ var emulator = (function(){
           zoom: 14,
           panControl: true,
           zoomControl: true,
-          //mapTypeControl:true,
           scaleControl: true,
           streetViewControl: true,
           overviewMapControl: true,
@@ -582,8 +581,6 @@ var emulator = (function(){
       $(".app").append("<button type = 'button' id='back'>Back</button>");
     var run=window.setInterval(drawClock,1000);
     if(mouseIsDown) {window.clearInterval(run);}
-
-
 
   }
   function drawClock(){
