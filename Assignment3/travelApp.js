@@ -9,6 +9,8 @@ var app = (function () {
     
     var pub = {};
     
+    var display = [];
+    
     var canX=0;
     var canY=0;
     var mouseIsDown=0;
@@ -48,15 +50,18 @@ var app = (function () {
         var coordinates={x: event.clientX,
                 y:event.clientY};
 
-        console.log(Swipe_Left);
-        if(Swipe_Left){
-            
+        if(Swipe_Left){   
             exit_menu();
-        
         }
         
-           hastouchcoordinates(coordinates);            
-   
+        if(Swipe_Up || Swipe_Down)
+            update_thirdPage(Swipe_Down,Swipe_Up);
+        
+        hastouchcoordinates(coordinates);            
+        
+        Swipe_Left=0;
+        Swipe_Up=0;
+        Swipe_Down=0;
     } 
     
   function mouseXY(event) {
@@ -94,7 +99,9 @@ var app = (function () {
                 firstPage();
             else if(pageNum==3)
                 secondPage();
-        
+            else if(pageNum==4){
+                thirdPage(display,parseInt(localStorage.getItem("result_index")));
+            }
     }
     
 
@@ -106,44 +113,65 @@ function hastouchcoordinates (touchcoordinates){
              
         if(pageNum==0){
             if(touchcoordinates.y < height+90+coordinates.y &&
-              touchcoordinates.y>=90+coordinates.y)
+              touchcoordinates.y>=90+coordinates.y
+              && touchcoordinates.x> coordinates.x+40
+              && touchcoordinates.x< coordinates.x+width)
             firstPage();
         }
         else if(pageNum==1){
             if(touchcoordinates.y <=50+ height+coordinates.y
-              && touchcoordinates.y>= 50+coordinates.y){
+              && touchcoordinates.y>= 50+coordinates.y
+              && touchcoordinates.x> coordinates.x+40
+              && touchcoordinates.x< coordinates.x+width){
             keyword="ac";    
             secondPage();       
             }
-            else if(touchcoordinates.y <=90+height+coordinates.y>= 130+coordinates.y
-                   && touchcoordinates.y>=90+coordinates.y){
+            else if(touchcoordinates.y <=90+height+coordinates.y
+                   && touchcoordinates.y>=90+coordinates.y
+              && touchcoordinates.x> coordinates.x+40
+              && touchcoordinates.x< coordinates.x+width){
             keyword="pu"    
             secondPage();
             }
             else if(touchcoordinates.y <= 130+height+coordinates.y
-                   && touchcoordinates.y>= 130+coordinates.y){
+                   && touchcoordinates.y>= 130+coordinates.y
+              && touchcoordinates.x> coordinates.x+40
+              && touchcoordinates.x< coordinates.x+width){
             keyword="en"
             secondPage();
             }
         }
         else if(pageNum==2){
             if(touchcoordinates.y <=50+ height+coordinates.y
-              && touchcoordinates.y>= 50+coordinates.y){          
+              && touchcoordinates.y>= 50+coordinates.y
+              && touchcoordinates.x> coordinates.x+40
+              && touchcoordinates.x< coordinates.x+width){          
             radius=1000;
-            showData(secondOptions());       
+            thirdPage(secondOptions(),0);       
             }
-            else if(touchcoordinates.y <=90+height+coordinates.y>= 130+coordinates.y
-                   && touchcoordinates.y>=90+coordinates.y){
+            else if(touchcoordinates.y <=90+height+coordinates.y
+                   && touchcoordinates.y>=90+coordinates.y
+              && touchcoordinates.x> coordinates.x+40
+              && touchcoordinates.x< coordinates.x+width){
             radius=5000;
-            showData(secondOptions());
+            thirdPage(secondOptions(),0);
             }
             else if(touchcoordinates.y <= 130+height+coordinates.y
-                   && touchcoordinates.y>= 130+coordinates.y){
+                   && touchcoordinates.y>= 130+coordinates.y
+              && touchcoordinates.x> coordinates.x+40
+              && touchcoordinates.x< coordinates.x+width){
             radius=20000;
-            showData(secondOptions());
+            thirdPage(secondOptions(),0);
+            }
         }
+        else if(pageNum==3){
+            var i=parseInt(localStorage.getItem("result_index"));
+            console.log("hello world");
+            forthPage(display,i);    
+        }    
     }
-}
+    
+
         //The second page shows the radius.
 function StartPage(){
         pageNum=0;
@@ -172,8 +200,8 @@ function StartPage(){
             width:emulator.width(),
             height:emulator.height(),            
             message1: "Accommodation",
-            message2: "Entertainment",
-            message3: "Public",
+            message2: "Public",
+            message3: "Entertainment",
             color: "#FFFFFF"
         };
         emulator.clearScreen();
@@ -204,38 +232,84 @@ function StartPage(){
         emulator.draw(menu.x + 40,menu.y+130,menu.width - 80, menu.height/6, menu.color);  
         emulator.write(menu.x + 40,menu.y+70,menu.message1); 
         emulator.write(menu.x + 40,menu.y+110,menu.message2);
-        emulator.write(menu.x + 40,menu.y+150,menu.message3);   
-        
-        
+        emulator.write(menu.x + 40,menu.y+150,menu.message3);          
     }
 
-    function showData(data){
+    function thirdPage(data,i){
+        pageNum=3;
+        i=parseInt(i);
+        var coordinates = emulator.coordinatesofEmulator(); 
+        var menu = {            
+            x:coordinates.x,
+            y:coordinates.y,
+            width:emulator.width(),
+            height:emulator.height(),             
+            message: data[i].name,
+            color: "#FFFFFF"            
+        };       
+        emulator.clearScreen();
+        emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
+        emulator.write(menu.x + 40,menu.y+110,menu.message);    
         
-        
+        //emulator.localsave("result_index",i);
+        localStorage.setItem("result_index",i);
     }
+    
+    function update_thirdPage(Down,Up){
+        var i=parseInt(localStorage.getItem("result_index"));
+        if(pageNum==3){
+            if(Up && i>0){
+                thirdPage(display,i-1);
+            }
+        
+            if(Down && i< display.length -1){
+                thirdPage(display,i+1);
+            }
+        }
+    }
+    
+    function forthPage(data,i){
+        pageNum=4;
+        var coordinates = emulator.coordinatesofEmulator(); 
+        var menu = {            
+            x:coordinates.x,
+            y:coordinates.y,
+            width:emulator.width(),
+            height:emulator.height(),
+            message1: data[i].name,
+            message2: data[i].address[0],
+            message3:"",
+            color: "#FFFFFF"            
+        }; 
+        for(i=1;i<data[i].address.length;i++)
+            menu.message3+=data[i].address[i];
+        
+        emulator.clearScreen();
+        emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
+        emulator.draw(menu.x + 40,menu.y+90,menu.width - 80, menu.height/6, menu.color); 
+        emulator.draw(menu.x + 40,menu.y+130,menu.width - 80, menu.height/6, menu.color);  
+        emulator.write(menu.x + 40,menu.y+70,menu.message1); 
+        emulator.write(menu.x + 40,menu.y+110,menu.message2);
+        emulator.write(menu.x + 40,menu.y+150,menu.message3);              
+    }
+    
     //Retrieve local storage data and use them to collect the relative information from
     //data base.
     function secondOptions() {
-        pageNum=3;
-        console.log(radius);
-        console.log(keyword);
-        //var keyword = localStorage.getItem("Menu1");
-        //var radius = localStorage.getItem("Radius1");
+
         var match = keyword;
-        var display = [];
+         display = []
         var count = 0;
         var dst;
         var src = new google.maps.LatLng(-45.866815599999995,170.5178656);
         var i;
-
-
         switch(match){
             case "ac" :
                 for ( i = 0; i<ac.length; i+=1) {
                     dst = new google.maps.LatLng(parseFloat(ac[i].location.lat),parseFloat(ac[i].location.long));
                     if(parseFloat(emulator.calcDistance(src,dst)) <= parseFloat(radius/1000)){
-
-                        display[count]= ac[i].name;
+                       
+                        display[count]= ac[i];
                         count +=1;
                     }
                 }
@@ -246,7 +320,7 @@ function StartPage(){
                     dst = new google.maps.LatLng(parseFloat(pu[i].location.lat),parseFloat(ac[i].location.long));
                     if(parseFloat(emulator.calcDistance(src,dst)) <= parseFloat(radius/1000)){
 
-                        display[count]= pu[i].name;
+                        display[count]= pu[i];
                         count +=1;
                     }
 
@@ -257,14 +331,13 @@ function StartPage(){
                 for ( i = 0; i<en.length; i+=1) {
                     dst = new google.maps.LatLng(parseFloat(en[i].location.lat),parseFloat(en[i].location.long));
                     if(parseFloat(emulator.calcDistance(src,dst)) <= parseFloat(radius/1000)){
-                        display[count]= en[i].name;
+                        display[count]= en[i];
                         count +=1;
                     }
                 }
                 break;
         }
         
-        console.log(display);
         return display;
     };
 

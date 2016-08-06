@@ -14,17 +14,18 @@ var emulator = (function(){
   var pub = {};
 
   pub.calcDistance = function(p1, p2) {
+      
     return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
   };
     
   /******local storage save item*****/
 
-  function local_save(Itemname, itemvalue){
+  pub.localsave=function(itemname, itemvalue){
 
     localStorage.setItem(Itemname,itemvalue);
   }
 
-  function local_get(itemname){
+  pub.localget=function(itemname){
 
     return localStorage.getItem(itemname);
   }
@@ -56,7 +57,7 @@ pub.height = function(){
     ctx.font = 'italic 10pt Calibri';
     ctx.fillStyle='black';
     //ctx.clearRect(x,y,width,height);
-    ctx.fillText(message, x, y);
+    ctx.fillText(message, x, y,120);
   }  
 
   pub.clearScreen= function(){
@@ -68,8 +69,9 @@ pub.height = function(){
   function draw_inner_frame(ctx, x, y, width, height) {
     ctx.beginPath();
     ctx.shadowBlur = 0;
-    // ctx.rect(x - width / 2, y - height / 2, width, height);
-    ctx.clearRect(x - width / 2, y - height / 2, width, height);
+    ctx.fillStyle = "black";  
+    ctx.rect(x - width / 2, y - height / 2, width, height);
+    //ctx.clearRect(x - width / 2, y - height / 2, width, height);
     ctx.stroke();
   }
 
@@ -117,7 +119,7 @@ pub.height = function(){
 
         draw_watch_frame(ctx, 200, 200, width, height, edge);
 
-        //draw_inner_frame(ctx, 200, 200, 160, 160);
+        draw_inner_frame(ctx, 200, 200, 160, 160);
         //create();
     };
     return pub;
