@@ -77,7 +77,8 @@ var emulator = (function(){
         
 
     /******************canvas draw*****************************/
-     pub.draw = function(x,y,width, height, color){    
+     pub.draw = function(x,y,width, height, color){
+         
         ctx.fillStyle = color;  
         ctx.fillRect(x, y, width, height);
         ctx.stroke();
@@ -90,19 +91,23 @@ var emulator = (function(){
       }  
 
       pub.clearScreen= function(){
-          ctx.clearRect(0,0,can.height,can.width);     
-          emulator.setup();
-          //draw_watch_frame(ctx,200,200,200,200,10);
-      }
-
+          ctx.clearRect(left_top.x,left_top.y,frame_size.w,frame_size.h);     
+        //  emulator.setup();
+       }
+      
+      pub.drawbackImage=function(image) {
+            var imageObj = new Image();
+            imageObj.src = image;
+            ctx.drawImage(imageObj,left_top.x, left_top.y);
+            return imageObj;
+    }
+    
       function draw_inner_frame(ctx, x, y, width, height) {
         ctx.beginPath();
-        ctx.shadowBlur = 0;
-          
+        ctx.shadowBlur = 0;  
         ctx.rect(x - width / 2, y - height / 2, width, height);
-        
         ctx.clearRect(x - width / 2, y - height / 2, width, height);
-        ctx.fillStyle='grey';
+        ctx.fillStyle="grey";
         ctx.fill();  
         ctx.stroke();
       }

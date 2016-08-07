@@ -38,7 +38,8 @@ var app = (function () {
         pageNum=0;
 
         StartPage();      
-
+        
+      
     }
 
         /*****************event listener*******************/
@@ -228,9 +229,10 @@ var app = (function () {
                 color: "black"            
             };       
             emulator.clearScreen();
+            emulator.drawbackImage('travel.jpg');
             emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
             emulator.write(menu.x + 40,menu.y+110,menu.message);   
-
+            
         }
      //The first page
     function firstPage(){
@@ -249,6 +251,7 @@ var app = (function () {
             color: "black"
         };
         emulator.clearScreen();
+        emulator.drawbackImage('travel.jpg');    
         emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+90,menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+130,menu.width - 80, menu.height/6, menu.color);  
@@ -272,6 +275,7 @@ var app = (function () {
             color: "black"            
         };       
         emulator.clearScreen();
+        emulator.drawbackImage('travel.jpg');
         emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+90,menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+130,menu.width - 80, menu.height/6, menu.color);  
@@ -297,6 +301,7 @@ var app = (function () {
             color: "black"            
         };       
         emulator.clearScreen();
+        emulator.drawbackImage('travel.jpg');
         emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
         emulator.write(menu.x + 40,menu.y+110,menu.message);    
 
@@ -341,6 +346,7 @@ var app = (function () {
             menu.message3+=data[i].address[i];
 
         emulator.clearScreen();
+        emulator.drawbackImage('travel.jpg');
         emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+90,menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+130,menu.width - 80, menu.height/6, menu.color);  
@@ -489,7 +495,7 @@ var app = (function () {
         var i=parseInt(localStorage.getItem("result_index"));
         var mapProp = {
              center: new google.maps.LatLng(parseFloat(display[i].location.lat),parseFloat(display[i].location.long)),
-              zoom: 15,
+              zoom: 16,
               zoomControl: true,
               overviewMapControl: true
         };
@@ -549,8 +555,7 @@ var app = (function () {
         emulator.addmouseuplistener(mouseup);
         emulator.addmousemovelistener(mouseXY);
         
-        start();
-
+        start();   
     };
     return pub;
 }());
