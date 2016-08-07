@@ -2,15 +2,17 @@
 
 //Main function of travel app
 var app = (function () {
+
+
     "use strict";
     var keyword="";
 
     var radius;
-    
+
     var pub = {};
-    
+
     var display = [];
-    
+
     var canX=0;
     var canY=0;
     var mouseIsDown=0;
@@ -25,24 +27,21 @@ var app = (function () {
     // start the app with three main category selections.
     //layout1 : the first button on left top, the following in horizontal center
     // the emulator specifies the x and y position.
-   
+
     // show the first screen 
     //register mouse event method
     function start() {
         pageNum=0;
-        
-        StartPage();       
-        emulator.addmousedownlistener(mousedown);
-        emulator.addmouseuplistener(mouseup);
-        emulator.addmousemovelistener(mouseXY);
- 
-    
+
+        StartPage();      
+
     }
-    
+
+        /*****************event listener*******************/
     //define mousedown functions
     //init Swipe ,record the position of mousedown
     function mousedown(event){
-     
+
         lastMouseDown.x = event.clientX;
         lastMouseDown.y = event.clientY;
         mouseIsDown = 1;        
@@ -50,8 +49,8 @@ var app = (function () {
         Swipe_Left= 0;
         Swipe_Up= 0;
         Swipe_Right=0;  
-     
-        
+
+
     }
     //mouse up function
     //define operations on mouse event
@@ -79,11 +78,11 @@ var app = (function () {
         Swipe_Up=0;
         Swipe_Down=0;
     } 
-    
+
     //mouse move event 
     //judge swipe event
     //
-  function mouseXY(event) {
+    function mouseXY(event) {
     if(mouseIsDown){
       canX = event.clientX - lastMouseDown.x;
       canY = event.clientY - lastMouseDown.y;}
@@ -109,18 +108,19 @@ var app = (function () {
     } else {
       Swipe_Down = 0;
     }
-  }
+    }
 
-    
-   //exit menu: 
-   //    page4->page3->page2->page1
-   //    page99->page1
-   //    the order is reversed to the sequence of entering a new menu
-   //    page99 is special as it contains a analog clock that translate coordinates
-   //    and the clock is always running. So stop it firstly and recover states.   
-  function exit_menu(){
+
+    /********************menu changes operation*************************/
+    //exit menu: 
+    //    page4->page3->page2->page1
+    //    page99->page1
+    //    the order is reversed to the sequence of entering a new menu
+    //    page99 is special as it contains a analog clock that translate coordinates
+    //    and the clock is always running. So stop it firstly and recover states.   
+    function exit_menu(){
             if(pageNum==1)
-                app.setup();
+                start();
             else if(pageNum==2)
                 firstPage();
             else if(pageNum==3)
@@ -131,22 +131,22 @@ var app = (function () {
             else if(pageNum==99){
                 clearInterval(clock_run);
                 emulator.recoverstate();
-                app.setup();
+                start();
                 }
             }
-    
-    
+
+
     // has touchcoordinates:
     //click event handler: based on the current pages,decide the next page and data collected from ui
     //
     //
 
-function hastouchcoordinates (touchcoordinates){
-        
+    function hastouchcoordinates (touchcoordinates){
+
         var coordinates = emulator.coordinatesofEmulator(); 
         var width = emulator.width()-80;
         var height = emulator.height()/6;
-             
+
         if(pageNum==0){
             if(touchcoordinates.y < height+90+coordinates.y &&
               touchcoordinates.y>=90+coordinates.y
@@ -202,33 +202,33 @@ function hastouchcoordinates (touchcoordinates){
         }
         else if(pageNum==3){
             var i=parseInt(localStorage.getItem("result_index"));
-            
+
             forthPage(display,i);    
         }    
     }
-    
 
-        //The start page
-function StartPage(){
-        pageNum=0;
-        var coordinates = emulator.coordinatesofEmulator(); 
-        var menu = {            
-            x:coordinates.x,
-            y:coordinates.y,
-            width:emulator.width(),
-            height:emulator.height(),             
-            message: "Travel App",
-            color: "#FFFFFF"            
-        };       
-        emulator.clearScreen();
-        emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
-        emulator.write(menu.x + 40,menu.y+110,menu.message);   
-        
-    }
+    /************************show menu*************************************/
+    //The start page
+    function StartPage(){
+            pageNum=0;
+            var coordinates = emulator.coordinatesofEmulator(); 
+            var menu = {            
+                x:coordinates.x,
+                y:coordinates.y,
+                width:emulator.width(),
+                height:emulator.height(),             
+                message: "Travel App",
+                color: "#FFFFFF"            
+            };       
+            emulator.clearScreen();
+            emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
+            emulator.write(menu.x + 40,menu.y+110,menu.message);   
+
+        }
      //The first page
     function firstPage(){
             pageNum=1;
-            
+
            var coordinates = emulator.coordinatesofEmulator(); 
         var menu = {
             x:coordinates.x,
@@ -250,6 +250,7 @@ function StartPage(){
     }   
     //The second page shows the radius.
     function secondPage(){
+
         pageNum=2;
         var coordinates = emulator.coordinatesofEmulator(); 
         var menu = {            
@@ -290,10 +291,10 @@ function StartPage(){
         emulator.clearScreen();
         emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
         emulator.write(menu.x + 40,menu.y+110,menu.message);    
-        
+
         localStorage.setItem("result_index",i);
     }
-    
+
     // the third page
     // if some one swipe up or down, the data on third page should be updated
     // swipe up: show the previous item
@@ -304,7 +305,7 @@ function StartPage(){
             if(Up && i>0){
                 thirdPage(display,i-1);
             }
-        
+
             if(Down && i< display.length -1){
                 thirdPage(display,i+1);
             }
@@ -330,7 +331,7 @@ function StartPage(){
         }; 
         for(i=1;i<data[i].address.length;i++)
             menu.message3+=data[i].address[i];
-        
+
         emulator.clearScreen();
         emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+90,menu.width - 80, menu.height/6, menu.color); 
@@ -340,6 +341,7 @@ function StartPage(){
         emulator.write(menu.x + 40,menu.y+150,menu.message3);              
     }
 
+    /**draw analog clock on the canvas**/
     //draw face:draw face of the clock: two circle
     function drawFace(radius){
         emulator.drawcircle(0,0, radius,'white');
@@ -363,11 +365,11 @@ function StartPage(){
     second=(second*Math.PI/30);
     emulator.drawline(second, radius*0.9, radius*0.02);
     }
-    
+
     //draw number around the center of the clock
     //
     //
-function drawNumbers(radius) {
+    function drawNumbers(radius) {
       var ang;
       var num;
       var string={
@@ -378,7 +380,7 @@ function drawNumbers(radius) {
            style:'black',
             maxwidth:120
       };          
-      
+
     for(num = 1; num < 13; num++){
         ang = num * Math.PI / 6;
         string.data=num.toString();
@@ -395,7 +397,7 @@ function drawNumbers(radius) {
     //showClock:
     // run clock every 1 second
     //
-function showClock(){
+    function showClock(){
     pageNum=99;
     emulator.clearScreen();
     emulator.savestate();
@@ -407,14 +409,16 @@ function showClock(){
           drawFace(rad);
           drawNumbers(rad);
           drawTime(rad);},1000);
-}
-    
+    }
 
+
+    /********************datea base********************************/
     
     //Retrieve local storage data and use them to collect the relative information from
     //data base. and saved in display
     //
     function secondOptions() {
+    
 
         var match = keyword;
          display = []
@@ -460,7 +464,17 @@ function showClock(){
         return display;
     };
 
-    pub.setup = function () {
+    /**********initiate********************/
+    pub.setup = function () { 
+        emulator.addmousedownlistener(mousedown);
+        emulator.addmouseuplistener(mouseup);
+        emulator.addmousemovelistener(mouseXY);
+        console.log("ddddd");
+        var map=emulator.create("div","googlemap");
+        
+        var name=emulator.getEid("googlemap");
+        console.log(map);
+        
         start();
 
     };
