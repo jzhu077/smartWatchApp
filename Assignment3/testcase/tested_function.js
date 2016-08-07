@@ -57,19 +57,60 @@ function calcDistance(p1, p2) {
 
 
 var can=document.getElementById("emulator");
+var ctx= can.getContext("2d");
 
-    function addmousedownlistener(funct){
-        can.addEventListener("mousedown", funct, false);
+function addmousedownlistener(funct){
+    can.addEventListener("mousedown", funct, false);
+}
+
+function addmouseuplistener(funct){
+
+    can.addEventListener("mouseup", funct, false);
+}
+function addmousemovelistener(funct){
+          can.addEventListener("mousemove", funct, false);
+}
+
+function create(node,class_id,id){
+        var new_node=document.createElement(node);
+        new_node.setAttribute('id',id);
+        new_node.setAttribute('class',class_id);
+        document.body.appendChild(new_node); 
+
+        return new_node;
     }
 
-    function addmouseuplistener(funct){
-       
-        can.addEventListener("mouseup", funct, false);
+    //get element by ID
+function getEid(id){
+            return document.getElementById(id);
     }
-    function addmousemovelistener(funct){
-              can.addEventListener("mousemove", funct, false);
-    }
-    
 
-
-
+  /***************************************************************/
+//css style wrapper
+//
+//
+  /*************************************************************/
+  function setelementZindex(elementid,Z) {
+    var element=document.getElementById(elementid);
+    element.style.zIndex=Z;
+  }
+  function setelementleft(elementid,left) {
+    var element=document.getElementById(elementid);
+    element.style.left=left;
+  }
+  function setelementtop(elementid,top) {
+    var element=document.getElementById(elementid);
+    element.style.top=top;
+  }
+  function setelementwidth(elementid,width) {
+    var element=document.getElementById(elementid);
+    element.style.width=width;
+  }
+  function setelementheight(elementid,height) {
+    var element=document.getElementById(elementid);
+    element.style.height=height;
+  }
+  function setelementposition(elementid,absorrel) {
+    var element=document.getElementById(elementid);
+    element.style.position=absorrel;
+  }

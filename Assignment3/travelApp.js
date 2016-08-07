@@ -24,6 +24,10 @@ var app = (function () {
     var pageNum;   
     var rad=80;
     var clock_run;
+    var map;
+    var infoWindow;
+    var service;
+
     // start the app with three main category selections.
     //layout1 : the first button on left top, the following in horizontal center
     // the emulator specifies the x and y position.
@@ -205,6 +209,9 @@ var app = (function () {
 
             forthPage(display,i);    
         }    
+        else if(pageNum==4){
+            create_map();
+        }
     }
 
     /************************show menu*************************************/
@@ -463,16 +470,84 @@ var app = (function () {
         return display;
     };
 
+    /****************google map api*******************/
+    
+    //create google map behind canvas
+    //
+    function create_map(){
+        map=emulator.create("div","map","googlemap");
+        emulator.appendtobody(map);
+        
+        var name=emulator.getEid("googlemap");
+      
+        emulator.setelementZindex("googlemap",10);
+        emulator.setelementleft("googlemap",emulator.lefttop().x);
+        emulator.setelementtop("googlemap",emulator.lefttop().y);
+        emulator.setelementposition("googlemap","absolute");
+        emulator.setelementheight("googlemap",emulator.framesize().h);
+        emulator.setelementwidth("googlemap",emulator.framesize().w);
+        var i=parseInt(localStorage.getItem("result_index"));
+        var mapProp = {
+             center: new google.maps.LatLng(parseFloat(display[i].location.lat),parseFloat(display[i].location.long)),
+              zoom: 15,
+              zoomControl: true,
+              overviewMapControl: true
+        };
+    
+        var map_element=emulator.getEid("googlemap");
+        google.maps.event.addDomListener(window, 'load', initialize(map_element,mapProp));
+        
+        
+    }
+    // initialize google map ,add a exit button
+    function initialize(map_element, map_para ) {   
+        map = new google.maps.Map(map_element, map_para);
+        var marker = new google.maps.Marker({
+            position: map_para.center,
+            map: map,
+            title: 'Here'
+          });
+        
+     
+
+        var quitmap = emulator.create('div',"","");
+        
+        CenterControl(quitmap, map);
+        CenterControl.index=1;
+        map.controls[google.maps.ControlPosition.LEFT_TOP].push(quitmap);  
+        /* add info window ,not working now
+        var i=parseInt(localStorage.getItem("result_index"));
+        var contentString =display[i].name;
+        console.log(contentString);
+        infowindow = new google.maps.InfoWindow({
+            content: contentString
+          });
+        emulator.addeventtrigger(marker,'click',function() {
+            infowindow.open(map, marker);
+          });*/
+    }
+    //unfinished, emulator and app separation
+    function CenterControl(controlDiv, map) {
+            var controlUI = emulator.create('div',"","");
+            emulator.setbackcolor(controlUI,'white');
+            emulator.setcursor(controlUI,'pointer');
+            emulator.appendtoparent(controlDiv,controlUI);
+            var controlText = emulator.create('div',"","exitbutton");
+            emulator.setTxt(controlText,'black','14px',"quitMap");
+            emulator.appendtoparent(controlUI,controlText);
+            emulator.addeventtrigger(controlUI,'click', function() {
+                removeMap();
+            });
+  }
+    function removeMap(){
+        emulator.removebodyobject("googlemap");
+    }
+    
     /**********initiate********************/
     pub.setup = function () { 
         emulator.addmousedownlistener(mousedown);
         emulator.addmouseuplistener(mouseup);
         emulator.addmousemovelistener(mouseXY);
-        console.log("ddddd");
-        var map=emulator.create("div","googlemap");
-        
-        var name=emulator.getEid("googlemap");
-        console.log(map);
         
         start();
 
