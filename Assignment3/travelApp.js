@@ -22,7 +22,7 @@ var app = (function () {
     var Swipe_Right=0; 
     var lastMouseDown = {x: null, y: null};// mouse position when click
     var pageNum;   
-    var rad=100;
+    var rad=80;
     var clock_run;
     // start the app with three main category selections.
     //layout1 : the first button on left top, the following in horizontal center
@@ -218,7 +218,7 @@ var app = (function () {
                 width:emulator.width(),
                 height:emulator.height(),             
                 message: "Travel App",
-                color: "#FFFFFF"            
+                color: "black"            
             };       
             emulator.clearScreen();
             emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
@@ -227,6 +227,7 @@ var app = (function () {
         }
      //The first page
     function firstPage(){
+        
             pageNum=1;
 
            var coordinates = emulator.coordinatesofEmulator(); 
@@ -238,7 +239,7 @@ var app = (function () {
             message1: "Accommodation",
             message2: "Public",
             message3: "Entertainment",
-            color: "#FFFFFF"
+            color: "black"
         };
         emulator.clearScreen();
         emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
@@ -261,7 +262,7 @@ var app = (function () {
             message1: "1km",
             message2: "5km",
             message3: "20km",
-            color: "#FFFFFF"            
+            color: "black"            
         };       
         emulator.clearScreen();
         emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
@@ -286,7 +287,7 @@ var app = (function () {
             width:emulator.width(),
             height:emulator.height(),             
             message: data[i].name,
-            color: "#FFFFFF"            
+            color: "black"            
         };       
         emulator.clearScreen();
         emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
@@ -327,7 +328,7 @@ var app = (function () {
             message1: data[i].name,
             message2: data[i].address[0],
             message3:"",
-            color: "#FFFFFF"            
+            color: "black"            
         }; 
         for(i=1;i<data[i].address.length;i++)
             menu.message3+=data[i].address[i];
@@ -401,7 +402,6 @@ var app = (function () {
     pageNum=99;
     emulator.clearScreen();
     emulator.savestate();
-    rad=100;
     emulator.transposition(emulator.width(), emulator.height());
     rad = rad * 0.90;
     //var clo=setInterval(drawClock(), 1000);
@@ -410,7 +410,6 @@ var app = (function () {
           drawNumbers(rad);
           drawTime(rad);},1000);
     }
-
 
     /********************datea base********************************/
     

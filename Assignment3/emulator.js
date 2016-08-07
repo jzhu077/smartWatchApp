@@ -73,7 +73,7 @@ var emulator = (function(){
 
       pub.write = function(x,y,message){
         ctx.font = 'italic 10pt Calibri';
-        ctx.fillStyle='black';
+        ctx.fillStyle='white';
         ctx.fillText(message, x, y,120);
       }  
 
@@ -86,15 +86,19 @@ var emulator = (function(){
       function draw_inner_frame(ctx, x, y, width, height) {
         ctx.beginPath();
         ctx.shadowBlur = 0;
-        ctx.fillStyle = "black";  
+          
         ctx.rect(x - width / 2, y - height / 2, width, height);
-        //ctx.clearRect(x - width / 2, y - height / 2, width, height);
+        
+        ctx.clearRect(x - width / 2, y - height / 2, width, height);
+        ctx.fillStyle='grey';
+        ctx.fill();  
         ctx.stroke();
       }
 
       function draw_watch_frame(ctx, x, y, width, height, edge) {
         ctx.beginPath();
         ctx.shadowBlur = 20;
+        ctx.fillStyle='black';  
         ctx.shadowColor = "black";
         ctx.moveTo(x - width / 2 + edge, y - height / 2);
         ctx.lineTo(x + width / 2 - edge, y - height / 2);
