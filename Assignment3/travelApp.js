@@ -20,10 +20,14 @@ var app = (function () {
     var Swipe_Right=0; 
     var lastMouseDown = {x: null, y: null};// mouse position when click
     var pageNum;   
-    
+    var rad=100;
+    var clock_run;
     // start the app with three main category selections.
     //layout1 : the first button on left top, the following in horizontal center
     // the emulator specifies the x and y position.
+   
+    // show the first screen 
+    //register mouse event method
     function start() {
         pageNum=0;
         
@@ -34,6 +38,9 @@ var app = (function () {
  
     
     }
+    
+    //define mousedown functions
+    //init Swipe ,record the position of mousedown
     function mousedown(event){
      
         lastMouseDown.x = event.clientX;
@@ -46,6 +53,13 @@ var app = (function () {
      
         
     }
+    //mouse up function
+    //define operations on mouse event
+    //Swipe left:exit current menu
+    //Swipe Right: enter analog clock if the current page is start page
+    //Swipe up or down: alter shown data if it is on page 3
+    //Click: go to the next page
+    //reset Swipe flag
     function mouseup(event){
         var coordinates={x: event.clientX,
                 y:event.clientY};
@@ -53,6 +67,9 @@ var app = (function () {
         if(Swipe_Left){   
             exit_menu();
         }
+        else if(Swipe_Right && pageNum==0){
+            showClock();
+            }
         else if(Swipe_Up || Swipe_Down)
             update_thirdPage(Swipe_Down,Swipe_Up);
         else{
@@ -63,6 +80,9 @@ var app = (function () {
         Swipe_Down=0;
     } 
     
+    //mouse move event 
+    //judge swipe event
+    //
   function mouseXY(event) {
     if(mouseIsDown){
       canX = event.clientX - lastMouseDown.x;
@@ -91,6 +111,13 @@ var app = (function () {
     }
   }
 
+    
+   //exit menu: 
+   //    page4->page3->page2->page1
+   //    page99->page1
+   //    the order is reversed to the sequence of entering a new menu
+   //    page99 is special as it contains a analog clock that translate coordinates
+   //    and the clock is always running. So stop it firstly and recover states.   
   function exit_menu(){
             if(pageNum==1)
                 app.setup();
@@ -100,9 +127,19 @@ var app = (function () {
                 secondPage();
             else if(pageNum==4){
                 thirdPage(display,parseInt(localStorage.getItem("result_index")));
+                }
+            else if(pageNum==99){
+                clearInterval(clock_run);
+                emulator.recoverstate();
+                app.setup();
+                }
             }
-    }
     
+    
+    // has touchcoordinates:
+    //click event handler: based on the current pages,decide the next page and data collected from ui
+    //
+    //
 
 function hastouchcoordinates (touchcoordinates){
         
@@ -171,7 +208,7 @@ function hastouchcoordinates (touchcoordinates){
     }
     
 
-        //The second page shows the radius.
+        //The start page
 function StartPage(){
         pageNum=0;
         var coordinates = emulator.coordinatesofEmulator(); 
@@ -188,7 +225,7 @@ function StartPage(){
         emulator.write(menu.x + 40,menu.y+110,menu.message);   
         
     }
-     //The second page shows the radius.
+     //The first page
     function firstPage(){
             pageNum=1;
             
@@ -234,6 +271,10 @@ function StartPage(){
         emulator.write(menu.x + 40,menu.y+150,menu.message3);          
     }
 
+    //the third page
+    //in third page:there are a list of objects, but only one of them , with index i, is shown here
+    // save the index of current objects in display
+    //
     function thirdPage(data,i){
         pageNum=3;
         i=parseInt(i);
@@ -250,10 +291,13 @@ function StartPage(){
         emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
         emulator.write(menu.x + 40,menu.y+110,menu.message);    
         
-        //emulator.localsave("result_index",i);
         localStorage.setItem("result_index",i);
     }
     
+    // the third page
+    // if some one swipe up or down, the data on third page should be updated
+    // swipe up: show the previous item
+    // swipe down:show the next item
     function update_thirdPage(Down,Up){
         var i=parseInt(localStorage.getItem("result_index"));
         if(pageNum==3){
@@ -266,7 +310,11 @@ function StartPage(){
             }
         }
     }
-    
+    //forthPage:
+    //show the detail of a specific item
+    // name and address
+    //specify a limited length in case of the length of string exceed the length of txt box
+    // the message format is still unsolved  
     function forthPage(data,i){
         pageNum=4;
         var coordinates = emulator.coordinatesofEmulator(); 
@@ -291,9 +339,81 @@ function StartPage(){
         emulator.write(menu.x + 40,menu.y+110,menu.message2);
         emulator.write(menu.x + 40,menu.y+150,menu.message3);              
     }
+
+    //draw face:draw face of the clock: two circle
+    function drawFace(radius){
+        emulator.drawcircle(0,0, radius,'white');
+        emulator.drawcircle(0,0, 0.1*radius,'black');
+    }
+    function drawTime(radius){
+    var now = new Date();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+    //hour
+    hour=hour%12;
+    hour=(hour*Math.PI/6)+
+    (minute*Math.PI/(6*60))+
+    (second*Math.PI/(360*60));
+    emulator.drawline(hour, radius*0.5, radius*0.07);
+    //minute
+    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
+    emulator.drawline(minute, radius*0.8, radius*0.07);
+    // second
+    second=(second*Math.PI/30);
+    emulator.drawline(second, radius*0.9, radius*0.02);
+    }
+    
+    //draw number around the center of the clock
+    //
+    //
+function drawNumbers(radius) {
+      var ang;
+      var num;
+      var string={
+           font : (radius*0.15).toString() + "px arial",
+           baseline:"middle",
+           position:"center",
+           data:"",
+           style:'black',
+            maxwidth:120
+      };          
+      
+    for(num = 1; num < 13; num++){
+        ang = num * Math.PI / 6;
+        string.data=num.toString();
+        emulator.rotateangle(ang);
+        emulator.transposition(0, -radius*0.85);
+        emulator.rotateangle(-ang);
+        emulator.fillTxt(string,0,0)
+        emulator.rotateangle(ang);
+        emulator.transposition(0, radius*0.85);
+        emulator.rotateangle(-ang);
+        }
+    }
+
+    //showClock:
+    // run clock every 1 second
+    //
+function showClock(){
+    pageNum=99;
+    emulator.clearScreen();
+    emulator.savestate();
+    rad=100;
+    emulator.transposition(emulator.width(), emulator.height());
+    rad = rad * 0.90;
+    //var clo=setInterval(drawClock(), 1000);
+    clock_run=setInterval(function () {
+          drawFace(rad);
+          drawNumbers(rad);
+          drawTime(rad);},1000);
+}
+    
+
     
     //Retrieve local storage data and use them to collect the relative information from
-    //data base.
+    //data base. and saved in display
+    //
     function secondOptions() {
 
         var match = keyword;
