@@ -13,7 +13,13 @@ var emulator = (function(){
   var left_top={};    
   var frame_size={};   
   var pub = {};
-
+  var help={
+            description:"here is a description for emulator ",
+            absolute_position:"canvas size is 400*400,lefttop is 0,0",
+            watch_outer_frame:"watch outer frame is 200*200 rectangler of which center is (200,200)",
+            watch_inner_frame:"watch inner frame is 160*160 rectangler of which center is (200,200)",
+            api_detail:""
+            };    
     /***************application related methods*********************/
     //calculate distance between two points, require google(network) support    
     pub.calcDistance = function(p1, p2) {      
@@ -48,6 +54,9 @@ var emulator = (function(){
     }
     pub.framesize=function(){
         return frame_size;
+    }
+    pub.help=function(){
+        return help;
     }
     /***********register enent methods*********************/
     //register mouse down event methods on canvas
@@ -84,12 +93,15 @@ var emulator = (function(){
         ctx.stroke();
       }
 
-      pub.write = function(x,y,message){
+      pub.write = function(x,y,message,maxwidth){
         ctx.font = 'italic 10pt Calibri';
         ctx.fillStyle='white';
-        ctx.fillText(message, x, y,120);
+        ctx.fillText(message, x, y,maxwidth);
       }  
-
+      
+      pub.measureTextlen=function(message){
+          return ctx.measureText(message);
+      }
       pub.clearScreen= function(){
           ctx.clearRect(left_top.x,left_top.y,frame_size.w,frame_size.h);     
         //  emulator.setup();
@@ -238,7 +250,7 @@ var emulator = (function(){
        
       
   /***************************************************************/
-//css style wrapper
+//set css style wrapper
 //
 //
   /*************************************************************/
@@ -282,7 +294,7 @@ var emulator = (function(){
 
         draw_watch_frame(ctx, 200, 200, width, height, edge);
 
-        draw_inner_frame(ctx, 200, 200, 160, 160);
+        draw_inner_frame(ctx, 200, 200, frame_size.w, frame_size.h);
         //create();
     };
     return pub;

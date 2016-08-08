@@ -136,6 +136,8 @@ var app = (function () {
             else if(pageNum==99){
                 clearInterval(clock_run);
                 emulator.recoverstate();
+                emulator.clearScreen();
+                emulator.setup();
                 start();
                 }
             }
@@ -207,12 +209,13 @@ var app = (function () {
         }
         else if(pageNum==3){
             var i=parseInt(localStorage.getItem("result_index"));
-
+            
             forthPage(display,i);    
         }    
         else if(pageNum==4){
             create_map();
         }
+        
     }
 
     /************************show menu*************************************/
@@ -231,7 +234,7 @@ var app = (function () {
             emulator.clearScreen();
             emulator.drawbackImage('travel.jpg');
             emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
-            emulator.write(menu.x + 40,menu.y+110,menu.message);   
+            writemessage(menu.x + 40,menu.y+110,menu.message,menu.width-80);   
             
         }
      //The first page
@@ -255,12 +258,13 @@ var app = (function () {
         emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+90,menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+130,menu.width - 80, menu.height/6, menu.color);  
-        emulator.write(menu.x + 40,menu.y+70,menu.message1); 
-        emulator.write(menu.x + 40,menu.y+110,menu.message2);
-        emulator.write(menu.x + 40,menu.y+150,menu.message3);  
+        writemessage(menu.x + 40,menu.y+70,menu.message1,menu.width-80); 
+        writemessage(menu.x + 40,menu.y+110,menu.message2,menu.width-80);
+        writemessage(menu.x + 40,menu.y+150,menu.message3,menu.width-80);  
     }   
     //The second page shows the radius.
     function secondPage(){
+        
 
         pageNum=2;
         var coordinates = emulator.coordinatesofEmulator(); 
@@ -279,9 +283,9 @@ var app = (function () {
         emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+90,menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+130,menu.width - 80, menu.height/6, menu.color);  
-        emulator.write(menu.x + 40,menu.y+70,menu.message1); 
-        emulator.write(menu.x + 40,menu.y+110,menu.message2);
-        emulator.write(menu.x + 40,menu.y+150,menu.message3);          
+        writemessage(menu.x + 40,menu.y+70,menu.message1,menu.width-80); 
+        writemessage(menu.x + 40,menu.y+110,menu.message2,menu.width-80);
+        writemessage(menu.x + 40,menu.y+150,menu.message3,menu.width-80);          
     }
 
     //the third page
@@ -289,6 +293,7 @@ var app = (function () {
     // save the index of current objects in display
     //
     function thirdPage(data,i){
+        
         pageNum=3;
         i=parseInt(i);
         var coordinates = emulator.coordinatesofEmulator(); 
@@ -303,7 +308,7 @@ var app = (function () {
         emulator.clearScreen();
         emulator.drawbackImage('travel.jpg');
         emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
-        emulator.write(menu.x + 40,menu.y+110,menu.message);    
+        writemessage(menu.x + 40,menu.y+110,menu.message,menu.width-80);    
 
         localStorage.setItem("result_index",i);
     }
@@ -344,15 +349,26 @@ var app = (function () {
         }; 
         for(i=1;i<data[i].address.length;i++)
             menu.message3+=data[i].address[i];
-
+                
         emulator.clearScreen();
         emulator.drawbackImage('travel.jpg');
-        emulator.draw(menu.x + 40,menu.y+50, menu.width - 80, menu.height/6, menu.color); 
+        emulator.draw(menu.x + 40,menu.y+50, menu.width-80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+90,menu.width - 80, menu.height/6, menu.color); 
         emulator.draw(menu.x + 40,menu.y+130,menu.width - 80, menu.height/6, menu.color);  
-        emulator.write(menu.x + 40,menu.y+70,menu.message1); 
-        emulator.write(menu.x + 40,menu.y+110,menu.message2);
-        emulator.write(menu.x + 40,menu.y+150,menu.message3);              
+        writemessage(menu.x + 40,menu.y+70,menu.message1,menu.width-80); 
+        writemessage(menu.x + 40,menu.y+110,menu.message2,menu.width-80);
+        writemessage(menu.x + 40,menu.y+150,menu.message3,menu.width-80);              
+    }
+
+    function writemessage(x,y,message,maxwidth){
+        
+        var len=emulator.measureTextlen(message);
+        console.log(len);
+        
+        if(len.width<120){
+            emulator.write(x+(maxwidth-len.width)/2,y,message,maxwidth);
+        }
+        else emulator.write(x,y,message,maxwidth);      
     }
 
     /**draw analog clock on the canvas**/
