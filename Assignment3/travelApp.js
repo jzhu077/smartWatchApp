@@ -128,7 +128,7 @@ var app = (function () {
                 emulator.setup();
                 start();
                 }
-            }
+        }
 
 
     // has touchcoordinates:
