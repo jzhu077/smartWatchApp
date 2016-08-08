@@ -45,30 +45,9 @@
         
         <h2>About the Emulator</h2>
              
-        <p>One of the ways, the Travel App processes information is by using Google Maps API provided by the Emulator.
-            For example, when a user asks for a radar search within 5 km, the emulator will pass this information to the
-            App. Once the Travel App receives this information, it can then access its database and sort the locations
-            based on calculated distances between current location and destinations using functions from the emulator.
-            The sorted locations are then passed back to the emulator for display to the user as a list. </p>
-        <p>The emulator also calculates the distance between point A to point B. For example, if a user is located in
-            Owheo and wants to reach New Worlds Gardens, a function located in the emulator wiould be called to calculate
-            this distance. This function came from the Google Maps API and receives input in the form of longtitude and
-            latitude. </p>
-
+     
         <h2>About the Travel App</h2>
-        <p>We could not get the geolocation service to run properly in every browser. Therefore, the Travel App was hard
-            coded the current location to be in Owheo Building. In the next phase of development, we plan to properly
-            research and implement the geolocation service to run in every browser so we do not hard-code the locations.</p>
-
-        <p> Each radar search would result in the places close to the university in the range of 1 km, 5km and 20km. The
-            user would be able to filter the results returned by the app through choosing from a set category of places
-            to choose from. For example, at the moment the user can choose between accomodation, public facilities and
-            entertainment to choose from. </p>
-
-        <p>At the moment, our prototype can only display a list of locations to the user after the user has chosen their
-            filter. We plan to provide more information about locations such as place description, opening hours, time
-            taken to get there and an image of the place once the user has clicked on the location. </p>
-
+     
 
     </div>
 
@@ -78,37 +57,7 @@
         <p> In our prototype, we are faced with many problems that the emulator knows the name of our app and contains some               application specific functions. In the current version, such methods and data have been moved to our app. 
             In addition, unused methods are dropped. Our new emulator provides all the necessary API that helps to layout 
             our app on the canvas.</p>
-        <p>The scale of this project was too small to implement MongoDB to store locations. Also, we would need a server
-            to access and change the MongoDB. However due to our current understanding of the assignment requirements,
-            we were limited to using Javascript. Once we realized that we could not use MongoDB, we tried using an XML
-            file as a database. However it requires a server-side script to save changes to an XML file. We then settled
-            on using a simple Javascript file to store location names, geolocation information and location addresses.
-            We used Google maps API to initialize our database. In theory, our database will be separate from Google
-            Maps database. The advantages of doing so, would mean that if we ever commercialize our app, we could insert
-            unique or private locations which businesses have paid for. This would also differentiate our Travel app
-            from competitors if we had locations in our database that was not present in others. </p>
-        <p>The final step of our Travel App would allow users to pick a location. Then, the travel app would provide a
-            detailed description and images of the chosen location. Due to time constraints, we could not implement this
-            final step. </p>
-        <p>The emulator Javascript file also has a lot of unused google maps API functions. In the process of developing
-            the Travel App, we realized that Chrome and Safari could not support geolocation services. Also, some of the
-            google maps API functions were included because we thought that it would provide some use for us. However,
-            as more research and testing went on, we ended up using only the radar search and a function called
-            computeDistanceBetween using the geometry library. </p>
-        <p>We tried to impelmenting the swipe and drag functionality. For example:</p>
-        <p>The user can click and drag to the right anywhere in the emulator for the google map to appear. This action
-            represents a swipe right action as if it were a real smartwatch with swipe functionality. The user can exit
-            google maps by clicking quit maps. </p>
-
-        <p>The user can also click and drag left for a clock to appear. This action represents a swipe left action. The
-            user can exit out of the clock by dragging down and come back to the home page. </p>
-        <p>Due to time constraint, we decided to remove these functionality, however we might continue to work on that in
-            our next developing phase.</p>
-        <p>We underestimated the time taken to design the app and emulator, and how they would interact with each other.
-            Therefore we ran out of time to implement more function in the emulator and app. In next assignment, we will
-            allocate more time to design the app and emulator. Having a good design would improve communication within
-            the group. </p>
-    </div>
+     </div>
 
     <div id="unit_tests">
 
