@@ -2,15 +2,6 @@
 //test trans coordinate event 
 //
 
-QUnit.test("create element", function( assert ) {
-		assert.ok(create('div','map','googlemap'));
-	});
-
-QUnit.test("getelementbyID", function( assert ) {
-		assert.ok(getEid('googlemap'));
-	});
-
-
 function testzindex(a){
     setelementZindex("googleMap",a);
 
@@ -48,30 +39,88 @@ function testposition(a){
     return ele.style.position==a;
 }
 
-QUnit.test("set Z index of element", function( assert ) {
+
+function test_create_appendtobody(string){
+    var node=create('div','',string);
+    return appendtobody(node);
+}
+
+function test_removebodyobject(string){
+    
+    removebodyobject(string);
+    if(document.getElementById(string))
+        return false;
+    else return true;
+}
+QUnit.test("create element googlemap and append to document body", function( assert ) {
+		assert.ok(test_create_appendtobody('googlemap'));
+	});
+
+QUnit.test("create element demo1 and append to document body", function( assert ) {
+		assert.ok(test_create_appendtobody('demo1'));
+	});
+
+
+QUnit.test("destroy document body object demo1", function( assert ) {
+		assert.ok(test_removebodyobject("demo1"));
+	});
+
+QUnit.test("destroy document body object googlemap", function( assert ) {
+		assert.ok(test_removebodyobject("googlemap"));
+	});
+
+QUnit.test("getelementbyID of googleMap", function( assert ) {
+		assert.ok(getEid('googleMap'));
+	});
+
+QUnit.test("set Z index 100  of element googleMap", function( assert ) {
 		assert.ok(testzindex(100));
 	});
 
 
-QUnit.test("set height of element", function( assert ) {
+QUnit.test("set height 100 of element googleMap", function( assert ) {
 		assert.ok(testheight(100));
 	});
 
-QUnit.test("set left of element", function( assert ) {
+QUnit.test("set left of 100 element googleMap", function( assert ) {
 		assert.ok(testleft(100));
 	});
 
-QUnit.test("set top of element", function( assert ) {
+QUnit.test("set top of 100  element googleMap", function( assert ) {
 		assert.ok(testtop(100));
 	});
 
-QUnit.test("set width of element", function( assert ) {
+QUnit.test("set width 100 of element googleMap", function( assert ) {
 		assert.ok(testwidth(100));
 	});
-
-QUnit.test("set relative/absolute position of element", function( assert ) {
-		assert.ok(testposition("relative"));
+QUnit.test("set Z index 200 of element googleMap", function( assert ) {
+		assert.ok(testzindex(200));
 	});
 
+
+QUnit.test("set height 200 of element googleMap", function( assert ) {
+		assert.ok(testheight(200));
+	});
+
+QUnit.test("set left of 200 element googleMap", function( assert ) {
+		assert.ok(testleft(200));
+	});
+
+QUnit.test("set top of 200 element googleMap", function( assert ) {
+		assert.ok(testtop(200));
+	});
+
+QUnit.test("set width of 200 element googleMap", function( assert ) {
+		assert.ok(testwidth(200));
+	});
+
+
+QUnit.test("set absolute position of element googleMap", function( assert ) {
+		assert.ok(testposition("absolute"));
+	});
+
+QUnit.test("set relative position of element googleMap", function( assert ) {
+		assert.ok(testposition("relative"));
+	});
 
 

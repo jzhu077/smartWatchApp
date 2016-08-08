@@ -75,8 +75,6 @@ function create(node,class_id,id){
         var new_node=document.createElement(node);
         new_node.setAttribute('id',id);
         new_node.setAttribute('class',class_id);
-        document.body.appendChild(new_node); 
-
         return new_node;
     }
 
@@ -85,6 +83,15 @@ function getEid(id){
             return document.getElementById(id);
     }
 
+function appendtobody(node){
+          return document.body.appendChild(node);
+      }
+
+function removebodyobject(id){
+          var node=document.getElementById(id);
+          document.body.removeChild(node);
+      }
+      
   /***************************************************************/
 //css style wrapper
 //

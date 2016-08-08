@@ -281,8 +281,8 @@ var emulator = (function(){
     
   /**********initiate************************************/
   pub.setup = function() {
-        x = 101;
-        y = 94;
+        x = 100;
+        y = 100;
         width = 200;
         height = 200;
         edge = 10;

@@ -23,15 +23,15 @@ function eventFire(el, etype){
   }
 }
 addmousedownlistener(mousedown);
-addmousemovelistener(mouseXY);
+//addmousemovelistener(mouseXY);
 addmouseuplistener(mouseup);
 eventFire(document.getElementById('emulator'), 'click');
 
-QUnit.test("mousedown", function( assert ) {
+QUnit.test("mousedown event trigger", function( assert ) {
 		assert.ok(mousedown());
 	});
 
-QUnit.test("mouseup", function( assert ) {
+QUnit.test("mouseup event trigger", function( assert ) {
 		assert.ok(mouseup());
 	});
 /*

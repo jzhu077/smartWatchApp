@@ -5,7 +5,7 @@ var app = (function () {
 
 
     "use strict";
-    var keyword="";
+    var keyword = "";
 
     var radius;
 
@@ -13,13 +13,13 @@ var app = (function () {
 
     var display = [];
 
-    var canX=0;
-    var canY=0;
-    var mouseIsDown=0;
-    var Swipe_Down= 0;
-    var Swipe_Left= 0;
-    var Swipe_Up= 0;
-    var Swipe_Right=0; 
+    var canX = 0;
+    var canY = 0;
+    var mouseIsDown = 0;
+    var Swipe_Down  = 0;
+    var Swipe_Left  = 0;
+    var Swipe_Up    = 0;
+    var Swipe_Right = 0; 
     var lastMouseDown = {x: null, y: null};// mouse position when click
     var pageNum;   
     var rad=80;
@@ -28,32 +28,20 @@ var app = (function () {
     var infoWindow;
     var service;
 
-    // start the app with three main category selections.
-    //layout1 : the first button on left top, the following in horizontal center
-    // the emulator specifies the x and y position.
 
-    // show the first screen 
-    //register mouse event method
-    function start() {
-        pageNum=0;
-
-        StartPage();      
-        
-      
-    }
 
         /*****************event listener*******************/
     //define mousedown functions
     //init Swipe ,record the position of mousedown
-    function mousedown(event){
+    function mousedown(event) {
 
         lastMouseDown.x = event.clientX;
         lastMouseDown.y = event.clientY;
         mouseIsDown = 1;        
-        Swipe_Down= 0;
-        Swipe_Left= 0;
-        Swipe_Up= 0;
-        Swipe_Right=0;  
+        Swipe_Down = 0;
+        Swipe_Left = 0;
+        Swipe_Up = 0;
+        Swipe_Right =0;  
 
 
     }
@@ -64,17 +52,17 @@ var app = (function () {
     //Swipe up or down: alter shown data if it is on page 3
     //Click: go to the next page
     //reset Swipe flag
-    function mouseup(event){
-        var coordinates={x: event.clientX,
-                y:event.clientY};
+    function mouseup(event) {
+        var coordinates = {x: event.clientX,
+                y: event.clientY};
 
-        if(Swipe_Left){   
+        if (Swipe_Left ) {   
             exit_menu();
         }
-        else if(Swipe_Right && pageNum==0){
+        else if (Swipe_Right && pageNum==0 ) {
             showClock();
             }
-        else if(Swipe_Up || Swipe_Down)
+        else if (Swipe_Up || Swipe_Down)
             update_thirdPage(Swipe_Down,Swipe_Up);
         else{
             hastouchcoordinates(coordinates);            
@@ -209,7 +197,10 @@ var app = (function () {
         }
         else if(pageNum==3){
             var i=parseInt(localStorage.getItem("result_index"));
-            
+            if(touchcoordinates.y < height+90+coordinates.y &&
+              touchcoordinates.y>=90+coordinates.y
+              && touchcoordinates.x> coordinates.x+40
+              && touchcoordinates.x< coordinates.x+width)       
             forthPage(display,i);    
         }    
         else if(pageNum==4){
@@ -363,7 +354,6 @@ var app = (function () {
     function writemessage(x,y,message,maxwidth){
         
         var len=emulator.measureTextlen(message);
-        console.log(len);
         
         if(len.width<120){
             emulator.write(x+(maxwidth-len.width)/2,y,message,maxwidth);
@@ -566,6 +556,19 @@ var app = (function () {
     }
     
     /**********initiate********************/
+        // start the app with three main category selections.
+    //layout1 : the first button on left top, the following in horizontal center
+    // the emulator specifies the x and y position.
+
+    // show the first screen 
+    function start() {
+        pageNum = 0;
+
+        StartPage();      
+        
+      
+    }
+    
     pub.setup = function () { 
         emulator.addmousedownlistener(mousedown);
         emulator.addmouseuplistener(mouseup);
