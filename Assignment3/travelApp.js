@@ -12,15 +12,7 @@ var app = (function () {
     var pub = {};
 
     var display = [];
-
-    var canX = 0;
-    var canY = 0;
-    var mouseIsDown = 0;
-    var Swipe_Down  = 0;
-    var Swipe_Left  = 0;
-    var Swipe_Up    = 0;
-    var Swipe_Right = 0; 
-    var lastMouseDown = {x: null, y: null};// mouse position when click
+ 
     var pageNum;   
     var rad=80;
     var clock_run;
@@ -28,81 +20,22 @@ var app = (function () {
     var infoWindow;
     var service;
 
-
-
-        /*****************event listener*******************/
-    //define mousedown functions
-    //init Swipe ,record the position of mousedown
-    function mousedown(event) {
-
-        lastMouseDown.x = event.clientX;
-        lastMouseDown.y = event.clientY;
-        mouseIsDown = 1;        
-        Swipe_Down = 0;
-        Swipe_Left = 0;
-        Swipe_Up = 0;
-        Swipe_Right =0;  
-
-
-    }
-    //mouse up function
-    //define operations on mouse event
-    //Swipe left:exit current menu
-    //Swipe Right: enter analog clock if the current page is start page
-    //Swipe up or down: alter shown data if it is on page 3
-    //Click: go to the next page
-    //reset Swipe flag
-    function mouseup(event) {
-        var coordinates = {x: event.clientX,
-                y: event.clientY};
-
-        if (Swipe_Left ) {   
+    //********************app to emulator interaface****************************//
+    pub.mousecallback=function(mouseevent){
+	var coordinates={x:mouseevent.x,y:mouseevent.y};
+	if (mouseevent.swipeleft ) {   
             exit_menu();
         }
-        else if (Swipe_Right && pageNum==0 ) {
+        else if (mouseevent.swiperight && pageNum==0 ) {
             showClock();
             }
-        else if (Swipe_Up || Swipe_Down)
-            update_thirdPage(Swipe_Down,Swipe_Up);
+        else if (mouseevent.swipeup || mouseevent.swipedown)
+            update_thirdPage(mouseevent.swipeup ,mouseevent.swipedown);
         else{
             hastouchcoordinates(coordinates);            
             }
-        Swipe_Left=0;
-        Swipe_Up=0;
-        Swipe_Down=0;
-    } 
 
-    //mouse move event 
-    //judge swipe event
-    //
-    function mouseXY(event) {
-    if(mouseIsDown){
-      canX = event.clientX - lastMouseDown.x;
-      canY = event.clientY - lastMouseDown.y;}
-
-    if (canX > 40) {
-      Swipe_Right = 1;
-    } else {
-      Swipe_Right = 0;
-    }
-
-    if (canX < -40) {
-      Swipe_Left = 1;
-    } else {
-      Swipe_Left = 0;
-    }
-    if (canY < -40) {
-      Swipe_Up = 1;
-    } else {
-      Swipe_Up = 0;
-    }
-    if (canY > 40) {
-      Swipe_Down = 1;
-    } else {
-      Swipe_Down = 0;
-    }
-    }
-
+	}
 
     /********************menu changes operation*************************/
     //exit menu: 
@@ -568,12 +501,9 @@ var app = (function () {
         
       
     }
-    
-    pub.setup = function () { 
-        emulator.addmousedownlistener(mousedown);
-        emulator.addmouseuplistener(mouseup);
-        emulator.addmousemovelistener(mouseXY);
-        
+ 
+   pub.setup = function () { 
+        emulator.inform(app.mousecallback);       
         start();   
     };
     return pub;
