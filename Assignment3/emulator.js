@@ -5,6 +5,8 @@ var emulator = (function(){
   x: 0,
   y: 0
   };
+
+
   //canvas settings
   var x,y,edge;
   var width, height;
@@ -19,7 +21,94 @@ var emulator = (function(){
             watch_outer_frame:"watch outer frame is 200*200 rectangler of which center is (200,200)",
             watch_inner_frame:"watch inner frame is 160*160 rectangler of which center is (200,200)",
             api_detail:""
-            };    
+            };  
+
+
+     /*****************event listener*******************/
+    var canX = 0;
+    var canY = 0;
+    var mouseIsDown = 0;
+    var Swipe_Down  = 0;
+    var Swipe_Left  = 0;
+    var Swipe_Up    = 0;
+    var Swipe_Right = 0; 
+    var lastMouseDown = {x: null, y: null};// mouse position when click
+ 
+
+   
+    //define mousedown functions
+    //init Swipe ,record the position of mousedown
+    function mousedown(event) {
+
+        lastMouseDown.x = event.clientX;
+        lastMouseDown.y = event.clientY;
+        mouseIsDown = 1;        
+        Swipe_Down = 0;
+        Swipe_Left = 0;
+        Swipe_Up = 0;
+        Swipe_Right =0;  
+
+
+    }
+    //mouse up function
+    //define operations on mouse event
+    //Swipe left:exit current menu
+    //Swipe Right: enter analog clock if the current page is start page
+    //Swipe up or down: alter shown data if it is on page 3
+    //Click: go to the next page
+    //reset Swipe flag
+    function mouseup(event) {
+        var coordinates = {x: event.clientX,
+                y: event.clientY};
+	
+	var mouseevent={
+		swipeleft:Swipe_Left,
+		swiperight:Swipe_Right,
+		swipeup:Swipe_Up,
+		swipedown:Swipe_Down,
+	        x:coordinates.x,
+                y:coordinates.y 
+	}
+	appevent(mouseevent);
+        Swipe_Left=0;
+        Swipe_Up=0;
+        Swipe_Down=0;
+    } 
+
+    //mouse move event 
+    //judge swipe event
+    //
+    function mouseXY(event) {
+    if(mouseIsDown){
+      canX = event.clientX - lastMouseDown.x;
+      canY = event.clientY - lastMouseDown.y;}
+
+    if (canX > 40) {
+      Swipe_Right = 1;
+    } else {
+      Swipe_Right = 0;
+    }
+
+    if (canX < -40) {
+      Swipe_Left = 1;
+    } else {
+      Swipe_Left = 0;
+    }
+    if (canY < -40) {
+      Swipe_Up = 1;
+    } else {
+      Swipe_Up = 0;
+    }
+    if (canY > 40) {
+      Swipe_Down = 1;
+    } else {
+      Swipe_Down = 0;
+    }
+    }
+
+
+  
+  
     /***************application related methods*********************/
     //calculate distance between two points, require google(network) support    
     pub.calcDistance = function(p1, p2) {      
@@ -278,7 +367,14 @@ var emulator = (function(){
     var element=document.getElementById(elementid);
     return element.style.position=absorrel;
   }
-    
+  var appevent;
+  /*********emulator learns app infomation**********/
+  pub.inform=function(func){
+	appevent=func;		
+	
+   }
+ 
+  
   /**********initiate************************************/
   pub.setup = function() {
         x = 100;
@@ -296,6 +392,11 @@ var emulator = (function(){
 
         draw_inner_frame(ctx, 200, 200, frame_size.w, frame_size.h);
         //create();
+        //
+        emulator.addmousedownlistener(mousedown);
+        emulator.addmouseuplistener(mouseup);
+        emulator.addmousemovelistener(mouseXY);
+	
     };
     return pub;
 }());
