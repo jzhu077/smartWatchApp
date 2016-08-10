@@ -69,7 +69,7 @@ var emulator = (function(){
 	        x:coordinates.x,
                 y:coordinates.y 
 	}
-	appevent(mouseevent);
+	mouseaction(mouseevent);
         Swipe_Left=0;
         Swipe_Up=0;
         Swipe_Down=0;
@@ -309,6 +309,19 @@ var emulator = (function(){
             new_node.setAttribute('class',class_id);
             return new_node;
         }
+      
+      //create element with id and tag
+      pub.creatediv=function(class_id,id){
+            var new_node=document.createElement('div');
+            new_node.setAttribute('id',id);
+            new_node.setAttribute('class',class_id);
+            return new_node;
+        }
+      pub.destroydivonClick=function(element_node,funct){
+            emulator.addeventtrigger(element_node,'click', funct);
+      }
+      
+      
       pub.appendtobody=function(node){
           return document.body.appendChild(node);
       }
@@ -367,10 +380,11 @@ var emulator = (function(){
     var element=document.getElementById(elementid);
     return element.style.position=absorrel;
   }
-  var appevent;
+  var 	mouseaction;		
+;
   /*********emulator learns app infomation**********/
-  pub.inform=function(func){
-	appevent=func;		
+  pub.mouseeventtrigger=function(func){
+	mouseaction=func;		
 	
    }
  

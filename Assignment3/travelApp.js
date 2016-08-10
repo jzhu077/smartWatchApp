@@ -420,7 +420,7 @@ var app = (function () {
     //create google map behind canvas
     //
     function create_map(){
-        map=emulator.create("div","map","googlemap");
+        map=emulator.creatediv("map","googlemap");
         emulator.appendtobody(map);
         
         var name=emulator.getEid("googlemap");
@@ -455,36 +455,25 @@ var app = (function () {
         
      
 
-        var quitmap = emulator.create('div',"","");
+        var quitmap = emulator.creatediv("","");
         
         CenterControl(quitmap, map);
         CenterControl.index=1;
         map.controls[google.maps.ControlPosition.LEFT_TOP].push(quitmap);  
-        /* add info window ,not working now
-        var i=parseInt(localStorage.getItem("result_index"));
-        var contentString =display[i].name;
-        console.log(contentString);
-        infowindow = new google.maps.InfoWindow({
-            content: contentString
-          });
-        emulator.addeventtrigger(marker,'click',function() {
-            infowindow.open(map, marker);
-          });*/
+        
     }
     //unfinished, emulator and app separation
     function CenterControl(controlDiv, map) {
-            var controlUI = emulator.create('div',"","");
+            var controlUI = emulator.creatediv("","");
             emulator.setbackcolor(controlUI,'white');
             emulator.setcursor(controlUI,'pointer');
             emulator.appendtoparent(controlDiv,controlUI);
             var controlText = emulator.create('div',"","exitbutton");
             emulator.setTxt(controlText,'black','14px',"quitMap");
             emulator.appendtoparent(controlUI,controlText);
-            emulator.addeventtrigger(controlUI,'click', function() {
-                removeMap();
-            });
+            emulator.destroydivonClick(controlUI,app.removeMap);       
   }
-    function removeMap(){
+    pub.removeMap=function(){
         emulator.removebodyobject("googlemap");
     }
     
@@ -496,14 +485,13 @@ var app = (function () {
     // show the first screen 
     function start() {
         pageNum = 0;
-
         StartPage();      
         
       
     }
  
    pub.setup = function () { 
-        emulator.inform(app.mousecallback);       
+        emulator.mouseeventtrigger(app.mousecallback);       
         start();   
     };
     return pub;
