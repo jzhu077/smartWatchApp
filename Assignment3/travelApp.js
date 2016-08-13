@@ -35,7 +35,7 @@ var app = (function () {
             hastouchcoordinates(coordinates);            
             }
 
-	}
+	};
 
     /********************menu changes operation*************************/
     //exit menu: 
@@ -94,14 +94,14 @@ var app = (function () {
                    && touchcoordinates.y>=90+coordinates.y
               && touchcoordinates.x> coordinates.x+40
               && touchcoordinates.x< coordinates.x+width){
-            keyword="pu"    
+            keyword="pu";
             secondPage();
             }
             else if(touchcoordinates.y <= 130+height+coordinates.y
                    && touchcoordinates.y>= 130+coordinates.y
               && touchcoordinates.x> coordinates.x+40
               && touchcoordinates.x< coordinates.x+width){
-            keyword="en"
+            keyword="en";
             secondPage();
             }
         }
@@ -173,8 +173,8 @@ var app = (function () {
             width:emulator.width(),
             height:emulator.height(),            
             message1: "Accommodation",
-            message2: "Public",
-            message3: "Entertainment",
+            message2: "Entertainment & Fun",
+            message3: "Restaurants & Bars",
             color: "black"
         };
         emulator.clearScreen();
@@ -231,9 +231,9 @@ var app = (function () {
         };       
         emulator.clearScreen();
         emulator.drawbackImage('travel.jpg');
-        emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color); 
-        writemessage(menu.x + 40,menu.y+110,menu.message,menu.width-80);    
 
+        emulator.draw(menu.x + 40,menu.y+90, menu.width - 80, menu.height/6, menu.color);
+        writemessage(menu.x + 40,menu.y+110,menu.message,menu.width-80);
         localStorage.setItem("result_index",i);
     }
 
@@ -253,7 +253,7 @@ var app = (function () {
             }
         }
     }
-    //forthPage:
+    //fourthPage:
     //show the detail of a specific item
     // name and address
     //specify a limited length in case of the length of string exceed the length of txt box
@@ -269,19 +269,22 @@ var app = (function () {
             message1: data[i].name,
             message2: data[i].address[0],
             message3:"",
-            color: "black"            
-        }; 
+            message4:data[i].description,
+            message5:"-Google",
+            color: "black"
+        };
+        emulator.clearScreen();
+        emulator.drawbackImage(data[i].images);
+
         for(i=1;i<data[i].address.length;i++)
             menu.message3+=data[i].address[i];
-                
-        emulator.clearScreen();
-        emulator.drawbackImage('travel.jpg');
-        emulator.draw(menu.x + 40,menu.y+50, menu.width-80, menu.height/6, menu.color); 
-        emulator.draw(menu.x + 40,menu.y+90,menu.width - 80, menu.height/6, menu.color); 
-        emulator.draw(menu.x + 40,menu.y+130,menu.width - 80, menu.height/6, menu.color);  
-        writemessage(menu.x + 40,menu.y+70,menu.message1,menu.width-80); 
-        writemessage(menu.x + 40,menu.y+110,menu.message2,menu.width-80);
-        writemessage(menu.x + 40,menu.y+150,menu.message3,menu.width-80);              
+
+        emulator.draw(menu.x + 20,menu.y+150, menu.width-30, menu.height/6.8, menu.color);
+        writemessage(menu.x + 20,menu.y+150,menu.message1,menu.width-50);
+        writemessage(menu.x + 20,menu.y+180,menu.message2,menu.width);
+        writemessage(menu.x + 20,menu.y + 160, menu.message4,menu.width-10);
+        writemessage(menu.x + 20,menu.y + 170, menu.message5,menu.width);
+
     }
 
     function writemessage(x,y,message,maxwidth){
@@ -294,85 +297,17 @@ var app = (function () {
         else emulator.write(x,y,message,maxwidth);      
     }
 
-    /**draw analog clock on the canvas**/
-    //draw face:draw face of the clock: two circle
-    function drawFace(radius){
-        emulator.drawcircle(0,0, radius,'white');
-        emulator.drawcircle(0,0, 0.1*radius,'black');
-    }
-    function drawTime(radius){
-    var now = new Date();
-    var hour = now.getHours();
-    var minute = now.getMinutes();
-    var second = now.getSeconds();
-    //hour
-    hour=hour%12;
-    hour=(hour*Math.PI/6)+
-    (minute*Math.PI/(6*60))+
-    (second*Math.PI/(360*60));
-    emulator.drawline(hour, radius*0.5, radius*0.07);
-    //minute
-    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
-    emulator.drawline(minute, radius*0.8, radius*0.07);
-    // second
-    second=(second*Math.PI/30);
-    emulator.drawline(second, radius*0.9, radius*0.02);
-    }
 
-    //draw number around the center of the clock
-    //
-    //
-    function drawNumbers(radius) {
-      var ang;
-      var num;
-      var string={
-           font : (radius*0.15).toString() + "px arial",
-           baseline:"middle",
-           position:"center",
-           data:"",
-           style:'black',
-            maxwidth:120
-      };          
 
-    for(num = 1; num < 13; num++){
-        ang = num * Math.PI / 6;
-        string.data=num.toString();
-        emulator.rotateangle(ang);
-        emulator.transposition(0, -radius*0.85);
-        emulator.rotateangle(-ang);
-        emulator.fillTxt(string,0,0)
-        emulator.rotateangle(ang);
-        emulator.transposition(0, radius*0.85);
-        emulator.rotateangle(-ang);
-        }
-    }
 
-    //showClock:
-    // run clock every 1 second
-    //
-    function showClock(){
-    pageNum=99;
-    emulator.clearScreen();
-    emulator.savestate();
-    emulator.transposition(emulator.width(), emulator.height());
-    rad = rad * 0.90;
-    //var clo=setInterval(drawClock(), 1000);
-    clock_run=setInterval(function () {
-          drawFace(rad);
-          drawNumbers(rad);
-          drawTime(rad);},1000);
-    }
-
-    /********************datea base********************************/
+    /********************database********************************/
     
     //Retrieve local storage data and use them to collect the relative information from
     //data base. and saved in display
     //
     function secondOptions() {
-    
-
         var match = keyword;
-         display = []
+         display = [];
         var count = 0;
         var dst;
         var src = new google.maps.LatLng(-45.866815599999995,170.5178656);
@@ -382,10 +317,10 @@ var app = (function () {
                 for ( i = 0; i<ac.length; i+=1) {
                     dst = new google.maps.LatLng(parseFloat(ac[i].location.lat),parseFloat(ac[i].location.long));
                     if(parseFloat(emulator.calcDistance(src,dst)) <= parseFloat(radius/1000)){
-                       
                         display[count]= ac[i];
                         count +=1;
                     }
+
                 }
                 break;
             case "pu" :
@@ -397,7 +332,6 @@ var app = (function () {
                         display[count]= pu[i];
                         count +=1;
                     }
-
 
                 }
                 break;
@@ -413,7 +347,7 @@ var app = (function () {
         }
         
         return display;
-    };
+    }
 
     /****************google map api*******************/
     
@@ -475,7 +409,7 @@ var app = (function () {
   }
     pub.removeMap=function(){
         emulator.removebodyobject("googlemap");
-    }
+    };
     
     /**********initiate********************/
         // start the app with three main category selections.
